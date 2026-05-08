@@ -353,10 +353,17 @@ const e = React.createElement;
 
 // ─── Portfolio data ──────────────────────────────────────────
 const PORTFOLIO = [
-  { id:1, code:'VA—24—042', client:'Darde Propaganda',  year:2024, vimeoId:'1190567738' },
-  { id:2, code:'VA—24—038', client:'Feedback Studios',  year:2024, vimeoId:'1190567956' },
-  { id:3, code:'VA—24—031', client:'Feedback Studios',  year:2024, vimeoId:'1190567625' },
-  { id:4, code:'VA—23—088', client:'Feedback Studios',  year:2023, vimeoId:'1190567939' },
+  { id:1, code:'VA—24—042', client:'Darde Propaganda', year:2024, vimeoId:'1190567738',
+    service:'Motion design e direção de arte.', software:'After Effects.' },
+  { id:2, code:'VA—24—038', client:'Feedback Studios', year:2024, vimeoId:'1190567956',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na filmagem real.',
+    software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
+  { id:3, code:'VA—24—031', client:'Feedback Studios', year:2024, vimeoId:'1190567625',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na filmagem real.',
+    software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
+  { id:4, code:'VA—23—088', client:'Feedback Studios', year:2023, vimeoId:'1190567939',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na filmagem real.',
+    software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
 ];
 
 // ─── Nav ─────────────────────────────────────────────────────
@@ -535,6 +542,14 @@ function Portfolio() {
             e('div', { className:'va-port-meta' },
               e('span', { className:'va-port-client' }, w.client),
               e('span', { className:'va-port-year' }, w.year)
+            ),
+            e('div', { style:{padding:'10px 0', display:'flex', flexDirection:'column', gap:4} },
+              e('span', { style:{fontFamily:'var(--font-sans)', fontSize:13, color:'var(--fg-2)', lineHeight:1.5} },
+                e('span', { style:{fontWeight:600} }, 'Serviço: '), w.service
+              ),
+              e('span', { style:{fontFamily:'var(--font-sans)', fontSize:13, color:'var(--fg-3)', lineHeight:1.5} },
+                e('span', { style:{fontWeight:600} }, 'Softwares: '), w.software
+              )
             )
           )
         )
