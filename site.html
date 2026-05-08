@@ -353,10 +353,10 @@ const e = React.createElement;
 
 // ─── Portfolio data ──────────────────────────────────────────
 const PORTFOLIO = [
-  { id:1, code:'VA—24—042', client:'Feedback',    year:2024, still:'assets/imagery/placeholder-1.svg' },
-  { id:2, code:'VA—24—038', client:'Produtora B', year:2024, still:'assets/imagery/placeholder-2.svg' },
-  { id:3, code:'VA—24—031', client:'Produtora C', year:2024, still:'assets/imagery/placeholder-3.svg' },
-  { id:4, code:'VA—23—088', client:'Produtora D', year:2023, still:'assets/imagery/placeholder-1.svg' },
+  { id:1, code:'VA—24—042', client:'Feedback',    year:2024, vimeoId:'1190567738' },
+  { id:2, code:'VA—24—038', client:'Produtora B', year:2024, vimeoId:'1190567956' },
+  { id:3, code:'VA—24—031', client:'Produtora C', year:2024, vimeoId:'1190567625' },
+  { id:4, code:'VA—23—088', client:'Produtora D', year:2023, vimeoId:'1190567939' },
 ];
 
 // ─── Nav ─────────────────────────────────────────────────────
@@ -383,7 +383,6 @@ function Nav({ dark }) {
 // ─── HeroReel (hero + reel combinados) ────────────────────
 function HeroReel() {
   const [tc, setTc] = useState('00:01:24:18');
-  const playerRef = useRef(null);
 
   useEffect(() => {
     let frame = 18 + 24*24 + 60*24;
@@ -398,14 +397,6 @@ function HeroReel() {
     return () => clearInterval(id);
   }, []);
 
-  const goFullscreen = (ev) => {
-    ev.stopPropagation();
-    const el = playerRef.current;
-    if (!el) return;
-    if (el.requestFullscreen) el.requestFullscreen();
-    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  };
-
   return e('section', { id:'hero', className:'va-hero' },
     e('div', { className:'va-hero-bar' },
       e('span', null, 'VirtuAll · VFX'),
@@ -419,19 +410,15 @@ function HeroReel() {
           'Produção', e('br'), 'audiovisual', e('br'), 'para criativos.')
       ),
       e('div', { className:'va-hr-right' },
-        /* Substituir o div.va-hr-player por <iframe src="URL" ...> quando disponível */
-        e('div', { className:'va-hr-player', ref:playerRef },
-          e('div', { className:'va-hr-play' },
-            e('svg', { width:22, height:22, viewBox:'0 0 24 24', fill:'currentColor' },
-              e('path', { d:'M8 5v14l11-7z' })
-            )
-          ),
-          e('span', { className:'va-hr-reel-label' }, 'Demo Reel — em breve'),
-          e('button', { className:'va-hr-fullscreen', onClick:goFullscreen, 'aria-label':'Tela cheia' },
-            e('svg', { width:16, height:16, viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth:'1.5' },
-              e('path', { d:'M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6' })
-            )
-          )
+        e('div', { className:'va-hr-player' },
+          e('iframe', {
+            src:'https://player.vimeo.com/video/1190567719?badge=0&autopause=0&player_id=0&dnt=1',
+            frameBorder:'0',
+            allow:'autoplay; fullscreen; picture-in-picture',
+            allowFullScreen:true,
+            style:{position:'absolute',top:0,left:0,width:'100%',height:'100%'},
+            title:'VirtuAll Demo Reel'
+          })
         )
       )
     ),
@@ -496,8 +483,15 @@ function Vetezando() {
     e('div', { className:'content' },
       e('div', { className:'va-sec-eyebrow', style:{color:'var(--neutral-500)'} }, 'DIVISÃO · VETEZANDO'),
       e('div', { className:'va-vetezando-grid' },
-        e('div', { style:{aspectRatio:'3/2', background:'var(--neutral-800)', border:'1px solid var(--line-inverse-1)', display:'flex', alignItems:'center', justifyContent:'center'} },
-          e('span', { style:{fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--neutral-600)'} }, 'IMAGEM · VETEZANDO')
+        e('div', { style:{position:'relative', aspectRatio:'16/9', background:'var(--neutral-900)', overflow:'hidden'} },
+          e('iframe', {
+            src:'https://player.vimeo.com/video/1190568031?badge=0&autopause=0&player_id=0&dnt=1',
+            frameBorder:'0',
+            allow:'autoplay; fullscreen; picture-in-picture',
+            allowFullScreen:true,
+            style:{position:'absolute',top:0,left:0,width:'100%',height:'100%'},
+            title:'Vetezando — VTs de ofertas'
+          })
         ),
         e('div', null,
           e('h2', { className:'va-sec-head', style:{marginTop:0, color:'var(--paper)'} },
@@ -525,7 +519,14 @@ function Portfolio() {
         PORTFOLIO.map(w =>
           e('div', { key:w.id, className:'va-port-card' },
             e('div', { className:'va-port-still' },
-              e('img', { src:w.still, alt:w.client }),
+              e('iframe', {
+                src:`https://player.vimeo.com/video/${w.vimeoId}?badge=0&autopause=0&player_id=0&dnt=1`,
+                frameBorder:'0',
+                allow:'autoplay; fullscreen; picture-in-picture',
+                allowFullScreen:true,
+                style:{position:'absolute',top:0,left:0,width:'100%',height:'100%'},
+                title:w.client
+              }),
               e('div', { className:'va-port-corner' },
                 e('span', null, w.code),
                 e('span', null, w.year)
