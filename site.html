@@ -439,46 +439,17 @@ function HeroReel() {
 
 // ─── Serviços ─────────────────────────────────────────────
 function Servicos() {
-  const blocks = [
-    {
-      inv: false, id: 'servicos',
-      eyebrow: '01 · Produção audiovisual',
-      headline: ['Produtoras', 'e agências.'],
-      desc: 'Motion design, VFX, tracking avançado, rotoscopia e color grading para produtoras. Para agências: do conceito à entrega final em todos os formatos.',
-      imgLabel: 'IMAGEM · PRODUÇÃO',
-    },
-    {
-      inv: true,
-      eyebrow: '02 · Imersivo e interativo',
-      headline: ['Imersivo', 'e interativo.'],
-      desc: 'Salas de projeção mapeada — do briefing à instalação. Tours virtuais com tecnologia de jogos, em óculos VR ou navegador, com interação e narração.',
-      imgLabel: 'IMAGEM · IMERSIVO',
-    },
-    {
-      inv: false,
-      eyebrow: '03 · IA & Conteúdo',
-      headline: ['Inteligência', 'artificial.'],
-      desc: 'Produção de imagens, vídeos e animações com IA generativa — com curadoria criativa e entrega com qualidade de broadcast.',
-      imgLabel: 'IMAGEM · IA',
-    },
-  ];
-
-  return e(React.Fragment, null,
-    blocks.map((b, i) =>
-      e('section', { key:i, id: b.id || undefined,
-          className: 'va-svc-blk' + (b.inv ? ' inv' : '') },
-        e('div', { className:'va-svc-blk-inner' },
-          e('div', { className:'va-svc-blk-text' },
-            e('div', { className:'va-svc-blk-eyebrow' }, b.eyebrow),
-            e('h2', { className:'va-svc-blk-headline' },
-              b.headline[0], e('br'), b.headline[1]
-            ),
-            e('p', { className:'va-svc-blk-desc' }, b.desc)
-          ),
-          e('div', { className:'va-svc-blk-img' },
-            e('span', { className:'va-svc-blk-img-label' }, b.imgLabel)
-          )
-        )
+  return e('section', { id:'servicos', className:'va-svc-blk' },
+    e('div', { className:'va-svc-blk-inner', style:{alignItems:'start'} },
+      e('div', { className:'va-svc-blk-text' },
+        e('div', { className:'va-svc-blk-eyebrow' }, '01 · Produção audiovisual'),
+        e('h2', { className:'va-svc-blk-headline' }, 'Produtoras', e('br'), 'e agências.'),
+        e('p', { className:'va-svc-blk-desc' }, 'Motion design, VFX, tracking avançado, rotoscopia e color grading para produtoras. Para agências: do conceito à entrega final em todos os formatos.')
+      ),
+      e('div', { className:'va-svc-blk-text' },
+        e('div', { className:'va-svc-blk-eyebrow' }, '02 · Imersivo e interativo'),
+        e('h2', { className:'va-svc-blk-headline' }, 'Imersivo', e('br'), 'e interativo.'),
+        e('p', { className:'va-svc-blk-desc' }, 'Salas de projeção mapeada — do briefing à instalação. Tours virtuais com tecnologia de jogos, em óculos VR ou navegador, com interação e narração.')
       )
     )
   );
