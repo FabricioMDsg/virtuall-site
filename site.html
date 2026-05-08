@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VirtuAll — Films for brands that matter.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --paper:        #F6F5F1;
+  --paper-pure:   #FFFFFF;
+  --ink:          #0A0A0A;
+  --ink-pure:     #000000;
+  --neutral-50:   #F1F0EC;
+  --neutral-100:  #E6E5E0;
+  --neutral-200:  #CFCEC8;
+  --neutral-300:  #B0AFA9;
+  --neutral-400:  #8B8A85;
+  --neutral-500:  #6B6A66;
+  --neutral-600:  #4E4D4A;
+  --neutral-700:  #353431;
+  --neutral-800:  #1F1F1D;
+  --neutral-900:  #121211;
+  --signal-rec:   #E5322A;
+
+  --fg-1:           var(--ink);
+  --fg-2:           var(--neutral-700);
+  --fg-3:           var(--neutral-500);
+  --fg-inverse-1:   var(--paper);
+  --fg-inverse-3:   var(--neutral-400);
+
+  --line-1:         var(--neutral-200);
+  --line-2:         var(--neutral-300);
+  --line-strong:    var(--ink);
+  --line-inverse-1: var(--neutral-700);
+
+  --font-sans:  'Inter Tight', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:  'JetBrains Mono', 'IBM Plex Mono', Menlo, monospace;
+
+  --ease-cut: cubic-bezier(0.2, 0, 0.1, 1);
+  --dur-1: 80ms; --dur-2: 160ms; --dur-3: 240ms;
+
+  --radius-1: 2px; --radius-pill: 999px;
+  --shadow-inset-strong: inset 0 0 0 1.5px var(--line-strong);
+
+  --maxw-bleed: 1680px; --maxw-content: 1120px;
+  --nav-h: 58px;
+}
+
+html { scroll-behavior: smooth; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--paper); color: var(--fg-1); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+button, input, textarea { font-family: inherit; }
+a { color: inherit; text-decoration: none; transition: opacity var(--dur-1) var(--ease-cut); }
+a:hover { opacity: 0.6; }
+p { margin: 0; }
+
+/* scroll-margin so sticky nav doesn't cover section titles */
+section[id] { scroll-margin-top: var(--nav-h); }
+
+/* layout helpers */
+.bleed   { max-width: var(--maxw-bleed);    margin: 0 auto; padding: 0 32px; }
+.content { max-width: var(--maxw-content);  margin: 0 auto; padding: 0 32px; }
+
+/* ── Nav ─────────────────────────────────────────────────── */
+.va-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(246,245,241,0.82);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line-1);
+  transition: background var(--dur-2) var(--ease-cut), border-color var(--dur-2);
+  height: var(--nav-h);
+}
+.va-nav.dark {
+  background: rgba(10,10,10,0.72);
+  border-bottom-color: var(--line-inverse-1);
+  color: var(--paper);
+}
+.va-nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 100%; padding: 0 32px;
+}
+.va-nav-mark {
+  font-family: var(--font-sans); font-weight: 900; font-size: 20px;
+  letter-spacing: -0.04em; cursor: pointer;
+}
+.va-nav-links { display: flex; gap: 28px; }
+.va-nav-link {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; cursor: pointer; padding: 6px 0; position: relative;
+}
+.va-nav-link.active::after {
+  content:''; position:absolute; left:0; right:0; bottom:-2px;
+  height:1px; background:currentColor;
+}
+.va-nav-lang { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.45; }
+
+/* ── Hero + Reel combinados ──────────────────────────────── */
+.va-hero {
+  position: relative;
+  height: calc(100svh - var(--nav-h));
+  min-height: 560px;
+  background: var(--ink);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.va-hero-bar {
+  flex-shrink: 0;
+  left:0; right:0; height: 56px;
+  background: var(--ink-pure);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--neutral-300);
+}
+.va-rec { display: inline-flex; align-items: center; gap: 6px; }
+.va-rec-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal-rec); animation: blink 1s infinite linear; }
+@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0.2} }
+
+.va-hr-grid {
+  flex: 1; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center; padding: 0 48px;
+  max-width: 1440px; margin: 0 auto; width: 100%;
+}
+.va-hr-eyebrow {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--neutral-400);
+  margin-bottom: 24px;
+}
+.va-hr-title {
+  font-family: var(--font-sans); font-weight: 900;
+  font-size: clamp(40px, 6.5vw, 96px);
+  line-height: 0.95; letter-spacing: -0.03em; color: var(--paper); margin: 0;
+}
+.va-hr-player {
+  aspect-ratio: 16/9; background: var(--neutral-900);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px; cursor: pointer;
+}
+.va-hr-play {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(246,245,241,0.1); border: 1px solid rgba(246,245,241,0.3);
+  display: flex; align-items: center; justify-content: center; color: var(--paper);
+  transition: background var(--dur-2); pointer-events: none;
+}
+.va-hr-player:hover .va-hr-play { background: rgba(246,245,241,0.2); }
+.va-hr-reel-label {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--neutral-400);
+  pointer-events: none;
+}
+.va-hr-fullscreen {
+  position: absolute; bottom: 12px; right: 12px;
+  width: 36px; height: 36px; border: 0; background: rgba(246,245,241,0.12);
+  color: var(--paper); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background var(--dur-2);
+}
+.va-hr-fullscreen:hover { background: rgba(246,245,241,0.25); opacity:1; }
+
+/* ── Section common ──────────────────────────────────────── */
+.va-sec-eyebrow {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3);
+}
+.va-sec-head {
+  font-family: var(--font-sans); font-weight: 900;
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 0.95; letter-spacing: -0.03em;
+  margin: 0;
+}
+.va-body {
+  font-family: var(--font-sans); font-size: 16px;
+  font-weight: 400; line-height: 1.55; color: var(--fg-2);
+}
+
+/* ── Serviços — 3 blocos de impacto ─────────────────────── */
+.va-svc-blk {
+  padding: 96px 0;
+  border-bottom: 1px solid var(--line-1);
+}
+.va-svc-blk.inv {
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom-color: var(--line-inverse-1);
+}
+.va-svc-blk-inner {
+  max-width: var(--maxw-content);
+  margin: 0 auto; padding: 0 32px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.va-svc-blk.inv .va-svc-blk-inner { direction: rtl; }
+.va-svc-blk.inv .va-svc-blk-text,
+.va-svc-blk.inv .va-svc-blk-img { direction: ltr; }
+.va-svc-blk-eyebrow {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--fg-3); margin-bottom: 20px;
+}
+.va-svc-blk.inv .va-svc-blk-eyebrow { color: var(--neutral-500); }
+.va-svc-blk-headline {
+  font-family: var(--font-sans); font-weight: 900;
+  font-size: clamp(48px, 6.5vw, 76px);
+  line-height: 0.93; letter-spacing: -0.04em;
+  color: var(--fg-1); margin: 0 0 32px;
+}
+.va-svc-blk.inv .va-svc-blk-headline { color: var(--paper); }
+.va-svc-blk-desc {
+  font-family: var(--font-sans); font-size: 16px;
+  line-height: 1.6; color: var(--fg-2); max-width: 420px;
+}
+.va-svc-blk.inv .va-svc-blk-desc { color: var(--neutral-400); }
+.va-svc-blk-img {
+  aspect-ratio: 3/2; background: var(--neutral-100);
+  border: 1px solid var(--line-1);
+  display: flex; align-items: center; justify-content: center;
+}
+.va-svc-blk.inv .va-svc-blk-img {
+  background: var(--neutral-800);
+  border-color: var(--line-inverse-1);
+}
+.va-svc-blk-img-label {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--neutral-400);
+}
+.va-svc-blk.inv .va-svc-blk-img-label { color: var(--neutral-600); }
+
+/* ── Vetezando ───────────────────────────────────────────── */
+.va-sec-vetezando {
+  padding: 96px 0;
+  background: var(--ink); color: var(--paper);
+  border-bottom: 1px solid var(--line-inverse-1);
+}
+.va-vetezando-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 56px; align-items: center; }
+
+/* ── Portfólio ───────────────────────────────────────────── */
+.va-sec-portfolio { padding: 96px 0 64px; border-bottom: 1px solid var(--line-1); }
+.va-port-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 56px; }
+.va-port-card { display: block; cursor: default; }
+.va-port-still { aspect-ratio: 16/9; background: var(--neutral-800); position: relative; overflow: hidden; }
+.va-port-still img { width:100%; height:100%; object-fit:cover; transition: transform var(--dur-3) var(--ease-cut); }
+.va-port-card:hover .va-port-still img { transform: scale(1.02); }
+.va-port-corner {
+  position: absolute; top:12px; left:12px; right:12px;
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.8);
+}
+.va-port-meta {
+  padding: 12px 0; border-bottom: 1px solid var(--line-1);
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.va-port-client {
+  font-family: var(--font-sans); font-weight: 800; font-size: 24px;
+  letter-spacing: -0.03em;
+}
+.va-port-year {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg-3);
+}
+
+/* ── Contato ─────────────────────────────────────────────── */
+.va-sec-contact { padding: 96px 0; }
+.va-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; margin-top: 56px; }
+.va-contact-info-block { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--ink); }
+
+.va-field { display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
+.va-field label { font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--fg-3); }
+.va-input {
+  font-family:var(--font-sans); font-size:15px; padding:13px 16px;
+  background:var(--paper); border:1px solid var(--line-2); border-radius:var(--radius-1);
+  color:var(--fg-1); outline:none; transition:border-color var(--dur-2);
+  width: 100%;
+}
+.va-input:focus { border-color:var(--ink); box-shadow:0 0 0 1px var(--ink); }
+.va-btn-primary {
+  font-family:var(--font-sans); font-weight:700; font-size:14px; letter-spacing:-0.01em;
+  padding:14px 32px; cursor:pointer; border:0;
+  background:var(--ink); color:var(--paper); border-radius:var(--radius-pill);
+  display:inline-flex; align-items:center; gap:8px;
+  transition: background var(--dur-2), color var(--dur-2), box-shadow var(--dur-2);
+}
+.va-btn-primary:hover { background:var(--paper); color:var(--ink); box-shadow:var(--shadow-inset-strong); opacity:1; }
+.va-btn-ghost {
+  font-family:var(--font-sans); font-weight:700; font-size:14px;
+  padding:0; cursor:pointer; border:0; background:transparent; color:var(--ink);
+  display:inline-flex; align-items:center; gap:6px;
+  transition:opacity var(--dur-1);
+}
+.va-btn-ghost:hover { opacity:0.6; }
+
+.va-sent {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:48px; box-shadow:var(--shadow-inset-strong);
+  min-height: 360px;
+}
+.va-sent-head {
+  font-family:var(--font-sans); font-weight:900; font-size:52px;
+  line-height:0.9; letter-spacing:-0.04em; margin:16px 0 28px;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.va-footer {
+  background:var(--ink); color:var(--paper);
+  padding:96px 32px 80px; text-align:center;
+}
+.va-footer-mark {
+  font-family:var(--font-sans); font-weight:900;
+  font-size:clamp(36px, 5vw, 72px);
+  line-height:0.95; letter-spacing:-0.03em; color:var(--paper);
+  display:block; margin-bottom:48px;
+}
+.va-footer-col {
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+}
+.va-footer-col a {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:15px; color:var(--neutral-300);
+}
+.va-footer-col a:hover { opacity:0.6; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .va-nav-links { display: none; }
+  .va-hero { height: auto; min-height: 0; padding: 80px 0; }
+  .va-hr-grid { grid-template-columns: 1fr; padding: 0 20px; gap: 24px; }
+  .va-hr-title { font-size: clamp(36px, 10vw, 60px); }
+  .va-svc-blk-inner { grid-template-columns: 1fr; gap: 40px; }
+  .va-svc-blk.inv .va-svc-blk-inner { direction: ltr; }
+  .va-svc-blk-text { order: 1; }
+  .va-svc-blk-img  { order: 2; }
+  .va-vetezando-grid,
+  .va-contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  .va-port-grid { grid-template-columns: 1fr; }
+  .bleed, .content { padding: 0 20px; }
+  .va-footer { padding: 64px 20px 48px; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+<script>
+const { useState, useEffect, useRef } = React;
+const e = React.createElement;
+
+// ─── Portfolio data ──────────────────────────────────────────
+const PORTFOLIO = [
+  { id:1, code:'VA—24—042', client:'Feedback',    year:2024, still:'assets/imagery/placeholder-1.svg' },
+  { id:2, code:'VA—24—038', client:'Produtora B', year:2024, still:'assets/imagery/placeholder-2.svg' },
+  { id:3, code:'VA—24—031', client:'Produtora C', year:2024, still:'assets/imagery/placeholder-3.svg' },
+  { id:4, code:'VA—23—088', client:'Produtora D', year:2023, still:'assets/imagery/placeholder-1.svg' },
+];
+
+// ─── Nav ─────────────────────────────────────────────────────
+function Nav({ dark }) {
+  const links = [
+    { href:'#servicos',  label:'Serviços' },
+    { href:'#vetezando', label:'Vetezando' },
+    { href:'#portfolio', label:'Portfólio' },
+    { href:'#contato',   label:'Contato' },
+  ];
+  return e('nav', { className:'va-nav' + (dark ? ' dark' : '') },
+    e('div', { className:'va-nav-inner' },
+      e('a', { className:'va-nav-mark', href:'#hero' }, 'VirtuAll'),
+      e('div', { className:'va-nav-links' },
+        links.map(l =>
+          e('a', { key:l.href, className:'va-nav-link', href:l.href }, l.label)
+        )
+      ),
+      e('span', { className:'va-nav-lang' }, 'PT')
+    )
+  );
+}
+
+// ─── HeroReel (hero + reel combinados) ────────────────────
+function HeroReel() {
+  const [tc, setTc] = useState('00:01:24:18');
+  const playerRef = useRef(null);
+
+  useEffect(() => {
+    let frame = 18 + 24*24 + 60*24;
+    const id = setInterval(() => {
+      frame = (frame + 1) % (60 * 60 * 24);
+      const h = String(Math.floor(frame / (60*60*24))).padStart(2,'0');
+      const m = String(Math.floor((frame % (60*60*24)) / (60*24))).padStart(2,'0');
+      const s = String(Math.floor((frame % (60*24)) / 24)).padStart(2,'0');
+      const f = String(frame % 24).padStart(2,'0');
+      setTc(`${h}:${m}:${s}:${f}`);
+    }, 1000/24);
+    return () => clearInterval(id);
+  }, []);
+
+  const goFullscreen = (ev) => {
+    ev.stopPropagation();
+    const el = playerRef.current;
+    if (!el) return;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  };
+
+  return e('section', { id:'hero', className:'va-hero' },
+    e('div', { className:'va-hero-bar' },
+      e('span', null, 'VirtuAll · VFX'),
+      e('span', { className:'va-rec' }, e('span', { className:'va-rec-dot' }), ' AO VIVO'),
+      e('span', null, `${tc} / 00:03:42:00`)
+    ),
+    e('div', { className:'va-hr-grid' },
+      e('div', { className:'va-hr-left' },
+        e('div', { className:'va-hr-eyebrow' }, 'O que fazemos'),
+        e('h1', { className:'va-hr-title' },
+          'Produção', e('br'), 'audiovisual', e('br'), 'para criativos.')
+      ),
+      e('div', { className:'va-hr-right' },
+        /* Substituir o div.va-hr-player por <iframe src="URL" ...> quando disponível */
+        e('div', { className:'va-hr-player', ref:playerRef },
+          e('div', { className:'va-hr-play' },
+            e('svg', { width:22, height:22, viewBox:'0 0 24 24', fill:'currentColor' },
+              e('path', { d:'M8 5v14l11-7z' })
+            )
+          ),
+          e('span', { className:'va-hr-reel-label' }, 'Demo Reel — em breve'),
+          e('button', { className:'va-hr-fullscreen', onClick:goFullscreen, 'aria-label':'Tela cheia' },
+            e('svg', { width:16, height:16, viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth:'1.5' },
+              e('path', { d:'M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6' })
+            )
+          )
+        )
+      )
+    ),
+    e('div', { className:'va-hero-bar' },
+      e('span', null, 'VA—VFX'),
+      e('span', null, 'PRODUTORAS · AGÊNCIAS · VAREJO'),
+      e('span', null, 'VA—24—042')
+    )
+  );
+}
+
+// ─── Serviços ─────────────────────────────────────────────
+function Servicos() {
+  const blocks = [
+    {
+      inv: false, id: 'servicos',
+      eyebrow: '01 · Produção audiovisual',
+      headline: ['Produtoras', 'e agências.'],
+      desc: 'Motion design, VFX, tracking avançado, rotoscopia e color grading para produtoras. Para agências: do conceito à entrega final em todos os formatos.',
+      imgLabel: 'IMAGEM · PRODUÇÃO',
+    },
+    {
+      inv: true,
+      eyebrow: '02 · Imersivo e interativo',
+      headline: ['Imersivo', 'e interativo.'],
+      desc: 'Salas de projeção mapeada — do briefing à instalação. Tours virtuais com tecnologia de jogos, em óculos VR ou navegador, com interação e narração.',
+      imgLabel: 'IMAGEM · IMERSIVO',
+    },
+    {
+      inv: false,
+      eyebrow: '03 · IA & Conteúdo',
+      headline: ['Inteligência', 'artificial.'],
+      desc: 'Produção de imagens, vídeos e animações com IA generativa — com curadoria criativa e entrega com qualidade de broadcast.',
+      imgLabel: 'IMAGEM · IA',
+    },
+  ];
+
+  return e(React.Fragment, null,
+    blocks.map((b, i) =>
+      e('section', { key:i, id: b.id || undefined,
+          className: 'va-svc-blk' + (b.inv ? ' inv' : '') },
+        e('div', { className:'va-svc-blk-inner' },
+          e('div', { className:'va-svc-blk-text' },
+            e('div', { className:'va-svc-blk-eyebrow' }, b.eyebrow),
+            e('h2', { className:'va-svc-blk-headline' },
+              b.headline[0], e('br'), b.headline[1]
+            ),
+            e('p', { className:'va-svc-blk-desc' }, b.desc)
+          ),
+          e('div', { className:'va-svc-blk-img' },
+            e('span', { className:'va-svc-blk-img-label' }, b.imgLabel)
+          )
+        )
+      )
+    )
+  );
+}
+
+// ─── Vetezando ───────────────────────────────────────────────
+function Vetezando() {
+  return e('section', { id:'vetezando', className:'va-sec-vetezando' },
+    e('div', { className:'content' },
+      e('div', { className:'va-sec-eyebrow', style:{color:'var(--neutral-500)'} }, 'DIVISÃO · VETEZANDO'),
+      e('div', { className:'va-vetezando-grid' },
+        e('div', { style:{aspectRatio:'3/2', background:'var(--neutral-800)', border:'1px solid var(--line-inverse-1)', display:'flex', alignItems:'center', justifyContent:'center'} },
+          e('span', { style:{fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--neutral-600)'} }, 'IMAGEM · VETEZANDO')
+        ),
+        e('div', null,
+          e('h2', { className:'va-sec-head', style:{marginTop:0, color:'var(--paper)'} },
+            'VTs de ofertas', e('br'), 'automatizados.'
+          ),
+          e('p', { className:'va-body', style:{marginTop:28, color:'var(--neutral-400)'} },
+            'Produzimos vídeos de ofertas em escala para supermercados, farmácias, fast food, eletrodomésticos e moda — do produto ao vídeo finalizado com fluxo automatizado, sem abrir mão da qualidade visual.'
+          ),
+          e('a', { href:'https://vetezando.com.br', target:'_blank', style:{marginTop:32, display:'inline-flex', alignItems:'center', gap:6, fontFamily:'var(--font-sans)', fontWeight:700, fontSize:14, color:'var(--paper)'} },
+            'Vetezando.com.br ↗'
+          )
+        )
+      )
+    )
+  );
+}
+
+// ─── Portfólio ────────────────────────────────────────────────
+function Portfolio() {
+  return e('section', { id:'portfolio', className:'va-sec-portfolio' },
+    e('div', { className:'content' },
+      e('div', { className:'va-sec-eyebrow' }, 'PORTFÓLIO · PRODUTORAS'),
+      e('h2', { className:'va-sec-head', style:{marginTop:16} }, 'Trabalhos.'),
+      e('div', { className:'va-port-grid' },
+        PORTFOLIO.map(w =>
+          e('div', { key:w.id, className:'va-port-card' },
+            e('div', { className:'va-port-still' },
+              e('img', { src:w.still, alt:w.client }),
+              e('div', { className:'va-port-corner' },
+                e('span', null, w.code),
+                e('span', null, w.year)
+              )
+            ),
+            e('div', { className:'va-port-meta' },
+              e('span', { className:'va-port-client' }, w.client),
+              e('span', { className:'va-port-year' }, w.year)
+            )
+          )
+        )
+      )
+    )
+  );
+}
+
+// ─── Contato ─────────────────────────────────────────────────
+function Contato() {
+  const [form, setForm] = useState({ name:'', email:'', company:'', brief:'' });
+  const [sent, setSent] = useState(false);
+  const upd = (k, v) => setForm(f => ({ ...f, [k]:v }));
+
+  return e('section', { id:'contato', className:'va-sec-contact' },
+    e('div', { className:'content' },
+      e('div', { className:'va-sec-eyebrow' }, 'CONTATO · BRIEFING'),
+      e('div', { className:'va-contact-grid' },
+        e('div', null,
+          e('h2', { className:'va-sec-head', style:{marginTop:16} }, 'Mande', e('br'), 'seu briefing.'),
+          e('p', { className:'va-body', style:{marginTop:28, maxWidth:380} },
+            'Respondemos em 24h. Se preferir ir direto ao ponto, escreva para ',
+            e('a', { href:'mailto:contato@virtuall-vfx.com', style:{borderBottom:'1px solid currentColor', color:'inherit'} }, 'contato@virtuall-vfx.com'), '.'
+          ),
+          e('div', { className:'va-contact-info-block' },
+            e('div', { style:{fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, 'FALE CONOSCO'),
+            e('a', { href:'mailto:contato@virtuall-vfx.com', className:'va-body', style:{marginTop:8, display:'block'} }, 'contato@virtuall-vfx.com'),
+            e('a', { href:'https://wa.me/5548991111727', target:'_blank', className:'va-body', style:{marginTop:8, display:'block'} }, 'WhatsApp (48) 9 9111-1727')
+          )
+        ),
+        sent
+          ? e('div', { className:'va-sent' },
+              e('div', { style:{fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, 'RECEBIDO · 200'),
+              e('h3', { className:'va-sent-head' }, 'Obrigado.', e('br'), 'Voltamos em 24h.'),
+              e('button', { className:'va-btn-ghost', onClick:() => setSent(false) }, '← Mandar outro')
+            )
+          : e('form', { onSubmit:(ev) => { ev.preventDefault(); setSent(true); } },
+              e('div', { className:'va-field' },
+                e('label', null, 'NOME'),
+                e('input', { className:'va-input', value:form.name, onChange:ev => upd('name', ev.target.value), placeholder:'Carolina Moreira', required:true })
+              ),
+              e('div', { className:'va-field' },
+                e('label', null, 'EMAIL'),
+                e('input', { className:'va-input', type:'email', value:form.email, onChange:ev => upd('email', ev.target.value), placeholder:'carol@brand.co', required:true })
+              ),
+              e('div', { className:'va-field' },
+                e('label', null, 'EMPRESA / AGÊNCIA'),
+                e('input', { className:'va-input', value:form.company, onChange:ev => upd('company', ev.target.value), placeholder:'Itaú · Africa' })
+              ),
+              e('div', { className:'va-field' },
+                e('label', null, 'BRIEFING'),
+                e('textarea', { className:'va-input', rows:5, value:form.brief, onChange:ev => upd('brief', ev.target.value), placeholder:'60s · TV + digital · entrega em 8 semanas.' })
+              ),
+              e('button', { type:'submit', className:'va-btn-primary' }, 'Mandar briefing →')
+            )
+      )
+    )
+  );
+}
+
+// ─── Footer ──────────────────────────────────────────────────
+const WaIcon = () => e('svg', { width:18, height:18, viewBox:'0 0 24 24', fill:'currentColor', style:{flexShrink:0} },
+  e('path', { d:'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z' })
+);
+
+function Footer() {
+  return e('footer', { className:'va-footer' },
+    e('div', { className:'bleed' },
+      e('span', { className:'va-footer-mark' }, 'VirtuAll'),
+      e('div', { className:'va-footer-col' },
+        e('a', { href:'mailto:contato@virtuall-vfx.com' }, 'contato@virtuall-vfx.com'),
+        e('a', { href:'https://wa.me/5548991111727', target:'_blank' },
+          e(WaIcon),
+          '(48) 9 9111-1727'
+        )
+      )
+    )
+  );
+}
+
+// ─── App ─────────────────────────────────────────────────────
+function App() {
+  const [darkNav, setDarkNav] = useState(true);
+  const heroRef = useRef(null);
+
+  useEffect(() => {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setDarkNav(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    obs.observe(hero);
+    return () => obs.disconnect();
+  }, []);
+
+  return e(React.Fragment, null,
+    e(Nav, { dark: darkNav }),
+    e(HeroReel),
+    e(Servicos),
+    e(Vetezando),
+    e(Portfolio),
+    e(Contato),
+    e(Footer)
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(e(App));
+</script>
+</body>
+</html>

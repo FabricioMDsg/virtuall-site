@@ -1,0 +1,96 @@
+/* Website UI kit — local layer on top of design tokens */
+@import url('./colors_and_type.css');
+
+* { box-sizing: border-box; }
+html, body, #app { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+button, input, textarea { font-family: inherit; }
+a { color: inherit; text-decoration: none; transition: opacity var(--dur-1) var(--ease-cut); }
+a:hover { opacity: 0.6; }
+
+/* utilities */
+.bleed { max-width: var(--maxw-bleed); margin: 0 auto; padding: 0 var(--gutter); }
+.content { max-width: var(--maxw-content); margin: 0 auto; padding: 0 var(--gutter); }
+.prose { max-width: var(--maxw-prose); margin: 0 auto; padding: 0 var(--gutter); }
+.blackline { border-top: 1px solid var(--ink); }
+
+/* Nav */
+.va-nav { position: sticky; top: 0; z-index: 50; background: rgba(246,245,241,0.72); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--line-1); }
+.va-nav.dark { background: rgba(10,10,10,0.6); border-bottom-color: var(--line-inverse-1); color: var(--paper); }
+.va-nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; }
+.va-nav-mark { font-family: var(--font-sans); font-weight: 900; font-size: 22px; letter-spacing: -0.04em; text-transform: lowercase; }
+.va-nav-links { display: flex; gap: 32px; }
+.va-nav-link { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; padding: 6px 0; position: relative; }
+.va-nav-link.active::after { content:''; position:absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: currentColor; }
+
+/* Hero */
+.va-hero { position: relative; height: calc(100vh - 56px); min-height: 600px; background: var(--ink); overflow: hidden; }
+.va-hero-still { position: absolute; inset: 0; }
+.va-hero-still img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+.va-hero-bar { position: absolute; left: 0; right: 0; height: 9%; background: var(--ink-pure); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--neutral-300); }
+.va-hero-bar.top { top: 0; }
+.va-hero-bar.bot { bottom: 0; }
+.va-hero-content { position: absolute; left: 32px; right: 32px; bottom: 16%; color: var(--paper); }
+.va-hero-title { font-family: var(--font-sans); font-weight: 900; font-size: clamp(64px, 10vw, 168px); line-height: 0.92; letter-spacing: -0.04em; text-transform: lowercase; }
+.va-hero-controls { position: absolute; right: 32px; bottom: 16%; display: flex; gap: 12px; }
+.va-icon-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.4); color: var(--paper); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background var(--dur-2); }
+.va-icon-btn:hover { background: var(--paper); color: var(--ink); }
+.va-rec { display: inline-flex; align-items: center; gap: 6px; }
+.va-rec-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal-rec); animation: blink 1s infinite linear; }
+@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0.2} }
+
+/* Section header */
+.va-sec-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3); }
+.va-sec-head { font-family: var(--font-sans); font-weight: 900; font-size: clamp(40px, 5vw, 80px); line-height: 0.95; letter-spacing: -0.03em; text-transform: lowercase; }
+
+/* Work grid */
+.va-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.va-work { display: block; cursor: pointer; }
+.va-work-still { aspect-ratio: 16/9; background: var(--neutral-800); position: relative; overflow: hidden; }
+.va-work-still img { width:100%; height:100%; object-fit: cover; transition: transform var(--dur-3) var(--ease-cut); }
+.va-work:hover .va-work-still img { transform: scale(1.02); }
+.va-work-corner { position:absolute; top:14px; left:14px; right:14px; display:flex; justify-content:space-between; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform:uppercase; color: rgba(255,255,255,0.85); }
+.va-work-meta { display: grid; grid-template-columns: 1fr auto; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line-1); }
+.va-work-client { font-family: var(--font-sans); font-weight: 900; font-size: 32px; line-height: 1.05; letter-spacing: -0.04em; text-transform: lowercase; }
+.va-work-strip { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+
+/* Case study */
+.va-case-hero { position: relative; aspect-ratio: 21/9; background: var(--ink); overflow: hidden; }
+.va-case-hero img { width:100%; height:100%; object-fit: cover; }
+.va-case-meta { display:grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.va-case-meta .cell { padding: 18px 16px; border-right: 1px solid var(--line-2); }
+.va-case-meta .cell:last-child { border-right: 0; }
+.va-case-meta .lab { display:block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 6px; }
+.va-case-meta .val { font-family: var(--font-sans); font-weight: 700; font-size: 14px; text-transform: none; letter-spacing: -0.01em; }
+.va-case-meta .val.mono { font-family: var(--font-mono); font-weight: 600; letter-spacing: 0.06em; }
+.va-case-credits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 32px; padding: 32px 0; }
+.va-case-credit { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 8px 0; border-top: 1px solid var(--line-1); }
+.va-case-credit .role { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3); padding-top: 3px; }
+.va-case-credit .name { font-family: var(--font-sans); font-size: 14px; font-weight: 600; }
+
+/* Buttons */
+.va-btn { font-family: var(--font-sans); font-weight: 700; font-size: 14px; letter-spacing: -0.01em; text-transform: none; padding: 14px 28px; cursor: pointer; transition: opacity var(--dur-1), background var(--dur-2), color var(--dur-2); border: 0; display: inline-flex; align-items: center; gap: 8px; }
+.va-btn-primary { background: var(--ink); color: var(--paper); border-radius: var(--radius-pill); }
+.va-btn-primary:hover { background: var(--paper); color: var(--ink); box-shadow: var(--shadow-inset-strong); }
+.va-btn-secondary { background: transparent; color: var(--ink); box-shadow: var(--shadow-inset-strong); border-radius: 0; }
+.va-btn-secondary:hover { background: var(--ink); color: var(--paper); }
+.va-btn-ghost { background: transparent; color: var(--ink); padding: 0; }
+
+/* Form */
+.va-field { display:flex; flex-direction:column; gap: 6px; margin-bottom: 18px; }
+.va-field label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3); }
+.va-input { font-family: var(--font-sans); font-size: 15px; padding: 14px 16px; background: var(--paper); border: 1px solid var(--line-2); border-radius: var(--radius-1); color: var(--fg-1); outline: none; transition: border-color var(--dur-2); }
+.va-input:focus { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+
+/* Footer */
+.va-footer { background: var(--ink); color: var(--paper); padding: 80px 32px 32px; }
+.va-footer-mark { font-family: var(--font-sans); font-weight: 900; font-size: clamp(72px, 14vw, 240px); line-height: 0.9; letter-spacing: -0.05em; text-transform: lowercase; color: var(--paper); }
+.va-footer-row { display:grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding-top: 48px; margin-top: 48px; border-top: 1px solid var(--line-inverse-1); }
+.va-footer-col-lab { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-inverse-3); margin-bottom: 12px; }
+.va-footer-col a { display: block; padding: 4px 0; font-size: 14px; }
+.va-footer-bottom { display: flex; justify-content: space-between; padding-top: 32px; margin-top: 48px; border-top: 1px solid var(--line-inverse-1); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-inverse-3); }
