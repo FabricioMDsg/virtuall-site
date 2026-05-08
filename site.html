@@ -533,7 +533,27 @@ function Portfolio() {
 function Contato() {
   const [form, setForm] = useState({ name:'', email:'', company:'', brief:'' });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const upd = (k, v) => setForm(f => ({ ...f, [k]:v }));
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+    setLoading(true);
+    setError('');
+    fetch('https://formspree.io/f/xvzlwaaj', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: form.name, email: form.email, empresa: form.company, briefing: form.brief }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) { setSent(true); }
+        else { setError('Algo deu errado. Tente novamente ou escreva direto para fabricio@virtuall-vfx.com.'); }
+      })
+      .catch(() => setError('Sem conexão. Escreva direto para fabricio@virtuall-vfx.com.'))
+      .finally(() => setLoading(false));
+  };
 
   return e('section', { id:'contato', className:'va-sec-contact' },
     e('div', { className:'content' },
@@ -555,9 +575,9 @@ function Contato() {
           ? e('div', { className:'va-sent' },
               e('div', { style:{fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, 'RECEBIDO · 200'),
               e('h3', { className:'va-sent-head' }, 'Obrigado.', e('br'), 'Voltamos em 24h.'),
-              e('button', { className:'va-btn-ghost', onClick:() => setSent(false) }, '← Mandar outro')
+              e('button', { className:'va-btn-ghost', onClick:() => { setSent(false); setForm({ name:'', email:'', company:'', brief:'' }); } }, '← Mandar outro')
             )
-          : e('form', { onSubmit:(ev) => { ev.preventDefault(); setSent(true); } },
+          : e('form', { onSubmit: handleSubmit },
               e('div', { className:'va-field' },
                 e('label', null, 'NOME'),
                 e('input', { className:'va-input', value:form.name, onChange:ev => upd('name', ev.target.value), placeholder:'Carolina Moreira', required:true })
@@ -574,7 +594,10 @@ function Contato() {
                 e('label', null, 'BRIEFING'),
                 e('textarea', { className:'va-input', rows:5, value:form.brief, onChange:ev => upd('brief', ev.target.value), placeholder:'60s · TV + digital · entrega em 8 semanas.' })
               ),
-              e('button', { type:'submit', className:'va-btn-primary' }, 'Mandar briefing →')
+              error && e('p', { style:{fontFamily:'var(--font-mono)', fontSize:11, color:'var(--signal-rec)', marginBottom:12} }, error),
+              e('button', { type:'submit', className:'va-btn-primary', disabled:loading, style:{opacity: loading ? 0.6 : 1} },
+                loading ? 'Enviando…' : 'Mandar briefing →'
+              )
             )
       )
     )
