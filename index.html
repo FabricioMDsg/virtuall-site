@@ -161,17 +161,21 @@ section[id] { scroll-margin-top: var(--nav-h); }
 .va-hr-fullscreen:hover { background: rgba(246,245,241,0.25); opacity:1; }
 .va-scroll-cta {
   display: flex; justify-content: center; align-items: center;
-  padding: 10px 0; flex-shrink: 0;
+  padding: 12px 0; flex-shrink: 0;
 }
 .va-scroll-cta a {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  color: var(--neutral-400); text-decoration: none;
-  font-family: var(--font-mono); font-size: 10px;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  transition: color 0.2s;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 1.5px solid rgba(246,245,241,0.3);
+  color: var(--neutral-200); text-decoration: none;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
 }
-.va-scroll-cta a:hover { color: var(--paper); }
-.va-scroll-arrows { display: flex; flex-direction: column; animation: va-bounce 1.6s ease-in-out infinite; }
+.va-scroll-cta a:hover {
+  border-color: rgba(246,245,241,0.7);
+  color: var(--paper);
+  background: rgba(246,245,241,0.07);
+}
+.va-scroll-arrows { display: flex; flex-direction: column; align-items: center; animation: va-bounce 1.6s ease-in-out infinite; }
 @keyframes va-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
 /* ── Section common ──────────────────────────────────────── */
@@ -373,7 +377,7 @@ const PORTFOLIO = [
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:3, code:'VA—24—031', client:'Feedback Studios', year:2025, vimeoId:'1190567625',
-    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:4, code:'VA—23—088', client:'Feedback Studios', year:2025, vimeoId:'1190567939',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
