@@ -159,6 +159,20 @@ section[id] { scroll-margin-top: var(--nav-h); }
   cursor: pointer; transition: background var(--dur-2);
 }
 .va-hr-fullscreen:hover { background: rgba(246,245,241,0.25); opacity:1; }
+.va-scroll-cta {
+  display: flex; justify-content: center; align-items: center;
+  padding: 10px 0; flex-shrink: 0;
+}
+.va-scroll-cta a {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  color: var(--neutral-400); text-decoration: none;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.va-scroll-cta a:hover { color: var(--paper); }
+.va-scroll-arrows { display: flex; flex-direction: column; animation: va-bounce 1.6s ease-in-out infinite; }
+@keyframes va-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
 /* ── Section common ──────────────────────────────────────── */
 .va-sec-eyebrow {
@@ -353,25 +367,25 @@ const e = React.createElement;
 
 // ─── Portfolio data ──────────────────────────────────────────
 const PORTFOLIO = [
-  { id:1, code:'VA—24—042', client:'Darde Propaganda', year:2024, vimeoId:'1190567738',
+  { id:1, code:'VA—24—042', client:'Darde Propaganda', year:2026, vimeoId:'1190567738',
     service:'Motion design e direção de arte.', software:'After Effects.' },
-  { id:2, code:'VA—24—038', client:'Feedback Studios', year:2024, vimeoId:'1190567956',
+  { id:2, code:'VA—24—038', client:'Feedback Studios', year:2026, vimeoId:'1190567956',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
-  { id:3, code:'VA—24—031', client:'Feedback Studios', year:2024, vimeoId:'1190567625',
-    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
+  { id:3, code:'VA—24—031', client:'Feedback Studios', year:2025, vimeoId:'1190567625',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
-  { id:4, code:'VA—23—088', client:'Feedback Studios', year:2023, vimeoId:'1190567939',
-    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
+  { id:4, code:'VA—23—088', client:'Feedback Studios', year:2025, vimeoId:'1190567939',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:5, code:'VA—24—043', client:'Feedback Studios', year:2024, vimeoId:'1199549485',
-    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:6, code:'VA—24—044', client:'Feedback Studios', year:2024, vimeoId:'1199550512',
-    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:7, code:'VA—24—045', client:'Feedback Studios', year:2024, vimeoId:'1199551139',
-    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
+    service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
 ];
 
@@ -435,6 +449,18 @@ function HeroReel() {
             style:{position:'absolute',top:0,left:0,width:'100%',height:'100%'},
             title:'VirtuAll Demo Reel'
           })
+        )
+      )
+    ),
+    e('div', { className:'va-scroll-cta' },
+      e('a', { href:'#servicos' },
+        e('div', { className:'va-scroll-arrows' },
+          e('svg', { width:24, height:14, viewBox:'0 0 24 14', fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round' },
+            e('polyline', { points:'2 2 12 12 22 2' })
+          ),
+          e('svg', { width:24, height:14, viewBox:'0 0 24 14', fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round', style:{opacity:0.35} },
+            e('polyline', { points:'2 2 12 12 22 2' })
+          )
         )
       )
     ),
