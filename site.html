@@ -256,7 +256,16 @@ section[id] { scroll-margin-top: var(--nav-h); }
 .va-vetezando-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 56px; align-items: center; }
 
 /* ── Portfólio ───────────────────────────────────────────── */
-.va-sec-portfolio { padding: 96px 0 64px; border-bottom: 1px solid var(--line-1); }
+.va-sec-portfolio {
+  padding: 96px 0 64px;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 1px solid var(--neutral-700);
+  --fg-1: var(--paper);
+  --fg-2: var(--neutral-300);
+  --fg-3: var(--neutral-400);
+  --line-1: var(--neutral-700);
+}
 .va-port-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 56px; }
 .va-port-card { display: block; cursor: default; }
 .va-port-still { aspect-ratio: 16/9; background: var(--neutral-800); position: relative; overflow: hidden; }
@@ -397,7 +406,6 @@ const PORTFOLIO = [
 function Nav({ dark }) {
   const links = [
     { href:'#servicos',  label:'Serviços' },
-    { href:'#vetezando', label:'Vetezando' },
     { href:'#portfolio', label:'Portfólio' },
     { href:'#contato',   label:'Contato' },
   ];
@@ -470,7 +478,6 @@ function HeroReel() {
     ),
     e('div', { className:'va-hero-bar' },
       e('span', null, 'VA—VFX'),
-      e('span', null, 'PRODUTORAS · AGÊNCIAS · VAREJO'),
       e('span', null, 'VA—24—042')
     )
   );
@@ -483,44 +490,7 @@ function Servicos() {
       e('div', { className:'va-svc-blk-text' },
         e('div', { className:'va-svc-blk-eyebrow' }, '01 · Produção audiovisual'),
         e('h2', { className:'va-svc-blk-headline' }, 'Produtoras', e('br'), 'e agências'),
-        e('p', { className:'va-svc-blk-desc' }, 'Motion design, VFX, tracking avançado, rotoscopia e color grading para produtoras. Para agências: do conceito à entrega final em todos os formatos.')
-      ),
-      e('div', { className:'va-svc-blk-text' },
-        e('div', { className:'va-svc-blk-eyebrow' }, '02 · Imersivo e interativo'),
-        e('h2', { className:'va-svc-blk-headline' }, 'Imersivo', e('br'), 'e interativo'),
-        e('p', { className:'va-svc-blk-desc' }, 'Salas de projeção mapeada — do briefing à instalação. Tours virtuais com tecnologia de jogos, em óculos VR ou navegador, com interação e narração.')
-      )
-    )
-  );
-}
-
-// ─── Vetezando ───────────────────────────────────────────────
-function Vetezando() {
-  return e('section', { id:'vetezando', className:'va-sec-vetezando' },
-    e('div', { className:'content' },
-      e('div', { className:'va-sec-eyebrow', style:{color:'var(--neutral-500)'} }, 'DIVISÃO · VETEZANDO'),
-      e('div', { className:'va-vetezando-grid' },
-        e('div', { style:{position:'relative', aspectRatio:'16/9', background:'var(--neutral-900)', overflow:'hidden'} },
-          e('iframe', {
-            src:'https://player.vimeo.com/video/1190568031?badge=0&autopause=0&player_id=0&dnt=1',
-            frameBorder:'0',
-            allow:'autoplay; fullscreen; picture-in-picture',
-            allowFullScreen:true,
-            style:{position:'absolute',top:0,left:0,width:'100%',height:'100%'},
-            title:'Vetezando — VTs de ofertas'
-          })
-        ),
-        e('div', null,
-          e('h2', { className:'va-sec-head', style:{marginTop:0, color:'var(--paper)'} },
-            'VTs de ofertas', e('br'), 'automatizados'
-          ),
-          e('p', { className:'va-body', style:{marginTop:28, color:'var(--neutral-400)'} },
-            'Produzimos vídeos de ofertas em escala para supermercados, farmácias, fast food, eletrodomésticos e moda — do produto ao vídeo finalizado com fluxo automatizado, sem abrir mão da qualidade visual.'
-          ),
-          e('a', { href:'https://vetezando.com.br', target:'_blank', style:{marginTop:32, display:'inline-flex', alignItems:'center', gap:6, fontFamily:'var(--font-sans)', fontWeight:700, fontSize:14, color:'var(--paper)'} },
-            'Vetezando.com.br ↗'
-          )
-        )
+        e('p', { className:'va-svc-blk-desc' }, 'Motion design, VFX, tracking avançado, rotoscopia e color grading para produtoras. Para agências: do conceito à entrega final em todos os formatos. Também: experiências imersivas e interativas.')
       )
     )
   );
@@ -683,7 +653,6 @@ function App() {
     e(Nav, { dark: darkNav }),
     e(HeroReel),
     e(Servicos),
-    e(Vetezando),
     e(Portfolio),
     e(Contato),
     e(Footer)
