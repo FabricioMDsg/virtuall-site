@@ -246,6 +246,24 @@ section[id] { scroll-margin-top: var(--nav-h); }
   color: var(--neutral-400);
 }
 .va-svc-blk.inv .va-svc-blk-img-label { color: var(--neutral-600); }
+.va-svc-list {
+  display: flex; flex-direction: column;
+  align-self: stretch;
+  border-top: 1px solid var(--line-1);
+}
+.va-svc-list-item {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  gap: 5px; border-bottom: 1px solid var(--line-1);
+  padding: 0 0 0 4px;
+}
+.va-svc-list-name {
+  font-family: var(--font-sans); font-weight: 700;
+  font-size: 18px; letter-spacing: -0.02em; color: var(--fg-1);
+}
+.va-svc-list-apps {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3);
+}
 
 /* ── Vetezando ───────────────────────────────────────────── */
 .va-sec-vetezando {
@@ -486,11 +504,24 @@ function HeroReel() {
 // ─── Serviços ─────────────────────────────────────────────
 function Servicos() {
   return e('section', { id:'servicos', className:'va-svc-blk' },
-    e('div', { className:'va-svc-blk-inner', style:{alignItems:'start'} },
+    e('div', { className:'va-svc-blk-inner', style:{alignItems:'stretch'} },
       e('div', { className:'va-svc-blk-text' },
         e('div', { className:'va-svc-blk-eyebrow' }, '01 · Produção audiovisual'),
         e('h2', { className:'va-svc-blk-headline' }, 'Produtoras', e('br'), 'e agências'),
-        e('p', { className:'va-svc-blk-desc' }, 'Motion design, VFX, tracking avançado, rotoscopia e color grading para produtoras. Para agências: do conceito à entrega final em todos os formatos. Também: experiências imersivas e interativas.')
+        e('p', { className:'va-svc-blk-desc' }, 'Seu braço de pós e motion, sem o custo de um time fixo. Motion design, VFX, tracking, roto e color — do conceito à entrega, em qualquer formato.')
+      ),
+      e('div', { className:'va-svc-list' },
+        [
+          { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
+          { name:'VFX & Compositing', apps:'Nuke · After Effects' },
+          { name:'Color Grading',     apps:'DaVinci Resolve' },
+          { name:'Real-time 3D',      apps:'Unreal Engine' },
+        ].map((s, i) =>
+          e('div', { key:i, className:'va-svc-list-item' },
+            e('span', { className:'va-svc-list-name' }, s.name),
+            e('span', { className:'va-svc-list-apps' }, s.apps)
+          )
+        )
       )
     )
   );
