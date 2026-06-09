@@ -406,9 +406,15 @@ const PORTFOLIO = [
   { id:3, code:'VA—24—031', client:'Feedback Studios', year:2025, vimeoId:'1190567625',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
+  { id:8, code:'VA—18—001', client:'Docile', year:2018, vimeoId:'1199592542',
+    service:'Criação, Direção de cena, Edição, Motion design e direção de arte.',
+    software:'After Effects, DaVinci Resolve.' },
   { id:4, code:'VA—23—088', client:'Feedback Studios', year:2025, vimeoId:'1190567939',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
+  { id:9, code:'VA—17—001', client:'Benoit', year:2017, vimeoId:'1199592544',
+    service:'Criação, Direção de cena, Edição e direção de arte.',
+    software:'DaVinci Resolve.' },
   { id:5, code:'VA—24—043', client:'Feedback Studios', year:2024, vimeoId:'1199549485',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
@@ -418,6 +424,9 @@ const PORTFOLIO = [
   { id:7, code:'VA—24—045', client:'Feedback Studios', year:2024, vimeoId:'1199551139',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real e motion design dos letterings.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
+  { id:10, code:'VA—17—002', client:'Mepasa', year:2017, vimeoId:'1199592543',
+    service:'Criação, Direção de cena, Edição, Motion design e direção de arte.',
+    software:'After Effects.' },
 ];
 
 // ─── Nav ─────────────────────────────────────────────────────
@@ -513,7 +522,7 @@ function Servicos() {
       e('div', { className:'va-svc-list' },
         [
           { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
-          { name:'VFX & Compositing', apps:'Nuke · After Effects' },
+          { name:'VFX & Compositing', apps:'After Effects' },
           { name:'Color Grading',     apps:'DaVinci Resolve' },
           { name:'Real-time 3D',      apps:'Unreal Engine' },
         ].map((s, i) =>
@@ -546,13 +555,11 @@ function Portfolio() {
                 title:w.client
               }),
               e('div', { className:'va-port-corner' },
-                e('span', null, w.code),
-                e('span', null, w.year)
+                e('span', null, w.code)
               )
             ),
             e('div', { className:'va-port-meta' },
-              e('span', { className:'va-port-client' }, e('span', { style:{fontWeight:400, fontSize:14, letterSpacing:0} }, 'Cliente: '), w.client),
-              e('span', { className:'va-port-year' }, w.year)
+              e('span', { className:'va-port-client' }, e('span', { style:{fontWeight:400, fontSize:14, letterSpacing:0} }, 'Cliente: '), w.client)
             ),
             e('div', { style:{padding:'10px 0', display:'flex', flexDirection:'column', gap:4} },
               e('span', { style:{fontFamily:'var(--font-sans)', fontSize:13, color:'var(--fg-2)', lineHeight:1.5} },
