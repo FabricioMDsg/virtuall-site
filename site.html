@@ -95,7 +95,11 @@ section[id] { scroll-margin-top: var(--nav-h); }
   content:''; position:absolute; left:0; right:0; bottom:-2px;
   height:1px; background:currentColor;
 }
-.va-nav-lang { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.45; }
+.va-nav-lang { display:inline-flex; align-items:center; gap:4px; }
+.va-lang-btn { background:none; border:none; cursor:pointer; font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:inherit; opacity:0.35; padding:0; transition:opacity var(--dur-2); }
+.va-lang-btn.active { opacity:1; }
+.va-lang-btn:hover { opacity:0.7; }
+.va-lang-sep { font-family:var(--font-mono); font-size:11px; opacity:0.2; }
 
 /* ── Hero + Reel combinados ──────────────────────────────── */
 .va-hero {
@@ -396,45 +400,117 @@ section[id] { scroll-margin-top: var(--nav-h); }
 const { useState, useEffect, useRef } = React;
 const e = React.createElement;
 
+// ─── i18n strings ─────────────────────────────────────────────
+const STRINGS = {
+  pt: {
+    nav: { servicos:'Serviços', portfolio:'Portfólio', contato:'Contato' },
+    hero: { eyebrow:'O que fazemos', t1:'Produção', t2:'audiovisual', t3:'para criativos', live:'AO VIVO' },
+    svc: {
+      eyebrow:'01 · Produção audiovisual', h1:'Produtoras', h2:'e agências',
+      desc:'Seu braço de pós e motion, sem o custo de um time fixo. Motion design, VFX, tracking, roto e color — do conceito à entrega, em qualquer formato.',
+      list:[
+        { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
+        { name:'VFX & Compositing', apps:'After Effects' },
+        { name:'Color Grading',     apps:'DaVinci Resolve' },
+        { name:'Real-time 3D',      apps:'Unreal Engine' },
+      ],
+    },
+    port: { eyebrow:'PORTFÓLIO · PRODUTORAS', headline:'Portfólio', lClient:'Cliente: ', lService:'Serviço: ', lSoftware:'Softwares: ' },
+    contact: {
+      eyebrow:'CONTATO · BRIEFING', h1:'Mande', h2:'seu briefing',
+      body:'Respondemos em 24h. Se preferir ir direto ao ponto, escreva para fabricio@virtuall-vfx.com.',
+      infoHeader:'FALE CONOSCO',
+      okEyebrow:'RECEBIDO · 200', okH1:'Obrigado.', okH2:'Voltamos em 24h.', okReset:'← Mandar outro',
+      lName:'NOME', phName:'Carolina Moreira',
+      lEmail:'EMAIL', phEmail:'carol@brand.co',
+      lCompany:'EMPRESA / AGÊNCIA', phCompany:'Itaú · Africa',
+      lBrief:'BRIEFING', phBrief:'60s · TV + digital · entrega em 8 semanas.',
+      errGeneric:'Algo deu errado. Tente novamente ou escreva direto para fabricio@virtuall-vfx.com.',
+      errNetwork:'Sem conexão. Escreva direto para fabricio@virtuall-vfx.com.',
+      btnSending:'Enviando…', btnSend:'Mandar briefing →',
+    },
+  },
+  en: {
+    nav: { servicos:'Services', portfolio:'Portfolio', contato:'Contact' },
+    hero: { eyebrow:'What we do', t1:'Post-production', t2:'& motion design', t3:'for creatives', live:'LIVE' },
+    svc: {
+      eyebrow:'01 · Post-production', h1:'Studios', h2:'& agencies',
+      desc:'Your post and motion arm, without the cost of a full-time team. Motion design, VFX, tracking, roto and color — from concept to delivery, in any format.',
+      list:[
+        { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
+        { name:'VFX & Compositing', apps:'After Effects' },
+        { name:'Color Grading',     apps:'DaVinci Resolve' },
+        { name:'Real-time 3D',      apps:'Unreal Engine' },
+      ],
+    },
+    port: { eyebrow:'PORTFOLIO · STUDIOS', headline:'Portfolio', lClient:'Client: ', lService:'Service: ', lSoftware:'Software: ' },
+    contact: {
+      eyebrow:'CONTACT · BRIEF', h1:'Send', h2:'your brief',
+      body:'We reply within 24h. If you prefer to go straight to the point, write to fabricio@virtuall-vfx.com.',
+      infoHeader:'GET IN TOUCH',
+      okEyebrow:'RECEIVED · 200', okH1:'Thank you.', okH2:'Back in 24h.', okReset:'← Send another',
+      lName:'NAME', phName:'Carolina Moreira',
+      lEmail:'EMAIL', phEmail:'carol@brand.co',
+      lCompany:'COMPANY / AGENCY', phCompany:'Brand Inc.',
+      lBrief:'BRIEF', phBrief:'60s · TV + digital · delivery in 8 weeks.',
+      errGeneric:'Something went wrong. Try again or write directly to fabricio@virtuall-vfx.com.',
+      errNetwork:'No connection. Write directly to fabricio@virtuall-vfx.com.',
+      btnSending:'Sending…', btnSend:'Send brief →',
+    },
+  },
+};
+
 // ─── Portfolio data ──────────────────────────────────────────
 const PORTFOLIO = [
   { id:1, code:'VA—24—042', client:'Darde Propaganda', year:2026, vimeoId:'1190567738',
-    service:'Motion design e direção de arte.', software:'After Effects.' },
+    service:'Motion design e direção de arte.',
+    serviceEn:'Motion design and art direction.',
+    software:'After Effects.' },
   { id:2, code:'VA—24—038', client:'Feedback Studios', year:2026, vimeoId:'1190567956',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
+    serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration on real footage.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:3, code:'VA—24—031', client:'Feedback Studios', year:2025, vimeoId:'1190567625',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
+    serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration on real footage.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:8, code:'VA—18—001', client:'Docile', year:2018, vimeoId:'1199592542',
     service:'Criação, Direção de cena, Edição, Motion design e direção de arte.',
+    serviceEn:'Concept, Direction, Editing, Motion design and art direction.',
     software:'After Effects, DaVinci Resolve.' },
   { id:4, code:'VA—23—088', client:'Feedback Studios', year:2025, vimeoId:'1190567939',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
+    serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration, chroma key actor compositing and lettering motion design.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:9, code:'VA—17—001', client:'Benoit', year:2017, vimeoId:'1199592544',
     service:'Criação, Direção de cena, Edição e direção de arte.',
+    serviceEn:'Concept, Direction, Editing and art direction.',
     software:'DaVinci Resolve.' },
   { id:5, code:'VA—24—043', client:'Feedback Studios', year:2024, vimeoId:'1199549485',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
+    serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration, chroma key actor compositing and lettering motion design.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:6, code:'VA—24—044', client:'Feedback Studios', year:2024, vimeoId:'1199550512',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
+    serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration, chroma key actor compositing and lettering motion design.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:7, code:'VA—24—045', client:'Feedback Studios', year:2024, vimeoId:'1199551139',
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real e motion design dos letterings.',
+    serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration and lettering motion design.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
   { id:10, code:'VA—17—002', client:'Mepasa', year:2017, vimeoId:'1199592543',
     service:'Criação, Direção de cena, Edição, Motion design e direção de arte.',
+    serviceEn:'Concept, Direction, Editing, Motion design and art direction.',
     software:'After Effects.' },
 ];
 
 // ─── Nav ─────────────────────────────────────────────────────
-function Nav({ dark }) {
+function Nav({ dark, lang, switchLang }) {
+  const t = STRINGS[lang].nav;
   const links = [
-    { href:'#servicos',  label:'Serviços' },
-    { href:'#portfolio', label:'Portfólio' },
-    { href:'#contato',   label:'Contato' },
+    { href:'#servicos',  label:t.servicos },
+    { href:'#portfolio', label:t.portfolio },
+    { href:'#contato',   label:t.contato },
   ];
   return e('nav', { className:'va-nav' + (dark ? ' dark' : '') },
     e('div', { className:'va-nav-inner' },
@@ -444,13 +520,17 @@ function Nav({ dark }) {
           e('a', { key:l.href, className:'va-nav-link', href:l.href }, l.label)
         )
       ),
-      e('span', { className:'va-nav-lang' }, 'PT')
+      e('div', { className:'va-nav-lang' },
+        e('button', { className:'va-lang-btn' + (lang==='pt' ? ' active' : ''), onClick:() => switchLang('pt') }, 'PT'),
+        e('span', { className:'va-lang-sep' }, '|'),
+        e('button', { className:'va-lang-btn' + (lang==='en' ? ' active' : ''), onClick:() => switchLang('en') }, 'EN')
+      )
     )
   );
 }
 
 // ─── HeroReel (hero + reel combinados) ────────────────────
-function HeroReel() {
+function HeroReel({ lang }) {
   const [tc, setTc] = useState('00:01:24:18');
 
   useEffect(() => {
@@ -466,17 +546,18 @@ function HeroReel() {
     return () => clearInterval(id);
   }, []);
 
+  const t = STRINGS[lang].hero;
   return e('section', { id:'hero', className:'va-hero' },
     e('div', { className:'va-hero-bar' },
       e('span', null, 'VirtuAll · VFX'),
-      e('span', { className:'va-rec' }, e('span', { className:'va-rec-dot' }), ' AO VIVO'),
+      e('span', { className:'va-rec' }, e('span', { className:'va-rec-dot' }), ' ' + t.live),
       e('span', null, `${tc} / 00:03:42:00`)
     ),
     e('div', { className:'va-hr-grid' },
       e('div', { className:'va-hr-left' },
-        e('div', { className:'va-hr-eyebrow' }, 'O que fazemos'),
+        e('div', { className:'va-hr-eyebrow' }, t.eyebrow),
         e('h1', { className:'va-hr-title' },
-          'Produção', e('br'), 'audiovisual', e('br'), 'para criativos')
+          t.t1, e('br'), t.t2, e('br'), t.t3)
       ),
       e('div', { className:'va-hr-right' },
         e('div', { className:'va-hr-player' },
@@ -511,21 +592,17 @@ function HeroReel() {
 }
 
 // ─── Serviços ─────────────────────────────────────────────
-function Servicos() {
+function Servicos({ lang }) {
+  const t = STRINGS[lang].svc;
   return e('section', { id:'servicos', className:'va-svc-blk' },
     e('div', { className:'va-svc-blk-inner', style:{alignItems:'stretch'} },
       e('div', { className:'va-svc-blk-text' },
-        e('div', { className:'va-svc-blk-eyebrow' }, '01 · Produção audiovisual'),
-        e('h2', { className:'va-svc-blk-headline' }, 'Produtoras', e('br'), 'e agências'),
-        e('p', { className:'va-svc-blk-desc' }, 'Seu braço de pós e motion, sem o custo de um time fixo. Motion design, VFX, tracking, roto e color — do conceito à entrega, em qualquer formato.')
+        e('div', { className:'va-svc-blk-eyebrow' }, t.eyebrow),
+        e('h2', { className:'va-svc-blk-headline' }, t.h1, e('br'), t.h2),
+        e('p', { className:'va-svc-blk-desc' }, t.desc)
       ),
       e('div', { className:'va-svc-list' },
-        [
-          { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
-          { name:'VFX & Compositing', apps:'After Effects' },
-          { name:'Color Grading',     apps:'DaVinci Resolve' },
-          { name:'Real-time 3D',      apps:'Unreal Engine' },
-        ].map((s, i) =>
+        t.list.map((s, i) =>
           e('div', { key:i, className:'va-svc-list-item' },
             e('span', { className:'va-svc-list-name' }, s.name),
             e('span', { className:'va-svc-list-apps' }, s.apps)
@@ -537,11 +614,12 @@ function Servicos() {
 }
 
 // ─── Portfólio ────────────────────────────────────────────────
-function Portfolio() {
+function Portfolio({ lang }) {
+  const t = STRINGS[lang].port;
   return e('section', { id:'portfolio', className:'va-sec-portfolio' },
     e('div', { className:'content' },
-      e('div', { className:'va-sec-eyebrow' }, 'PORTFÓLIO · PRODUTORAS'),
-      e('h2', { className:'va-sec-head', style:{marginTop:16} }, 'Portfólio'),
+      e('div', { className:'va-sec-eyebrow' }, t.eyebrow),
+      e('h2', { className:'va-sec-head', style:{marginTop:16} }, t.headline),
       e('div', { className:'va-port-grid' },
         PORTFOLIO.map(w =>
           e('div', { key:w.id, className:'va-port-card' },
@@ -559,14 +637,14 @@ function Portfolio() {
               )
             ),
             e('div', { className:'va-port-meta' },
-              e('span', { className:'va-port-client' }, e('span', { style:{fontWeight:400, fontSize:14, letterSpacing:0} }, 'Cliente: '), w.client)
+              e('span', { className:'va-port-client' }, e('span', { style:{fontWeight:400, fontSize:14, letterSpacing:0} }, t.lClient), w.client)
             ),
             e('div', { style:{padding:'10px 0', display:'flex', flexDirection:'column', gap:4} },
               e('span', { style:{fontFamily:'var(--font-sans)', fontSize:13, color:'var(--fg-2)', lineHeight:1.5} },
-                e('span', { style:{fontWeight:600} }, 'Serviço: '), w.service
+                e('span', { style:{fontWeight:600} }, t.lService), lang==='en' ? w.serviceEn : w.service
               ),
               e('span', { style:{fontFamily:'var(--font-sans)', fontSize:13, color:'var(--fg-3)', lineHeight:1.5} },
-                e('span', { style:{fontWeight:600} }, 'Softwares: '), w.software
+                e('span', { style:{fontWeight:600} }, t.lSoftware), w.software
               )
             )
           )
@@ -577,7 +655,8 @@ function Portfolio() {
 }
 
 // ─── Contato ─────────────────────────────────────────────────
-function Contato() {
+function Contato({ lang }) {
+  const t = STRINGS[lang].contact;
   const [form, setForm] = useState({ name:'', email:'', company:'', brief:'' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -596,54 +675,54 @@ function Contato() {
       .then(res => res.json())
       .then(data => {
         if (data.ok) { setSent(true); }
-        else { setError('Algo deu errado. Tente novamente ou escreva direto para fabricio@virtuall-vfx.com.'); }
+        else { setError(t.errGeneric); }
       })
-      .catch(() => setError('Sem conexão. Escreva direto para fabricio@virtuall-vfx.com.'))
+      .catch(() => setError(t.errNetwork))
       .finally(() => setLoading(false));
   };
 
   return e('section', { id:'contato', className:'va-sec-contact' },
     e('div', { className:'content' },
-      e('div', { className:'va-sec-eyebrow' }, 'CONTATO · BRIEFING'),
+      e('div', { className:'va-sec-eyebrow' }, t.eyebrow),
       e('div', { className:'va-contact-grid' },
         e('div', null,
-          e('h2', { className:'va-sec-head', style:{marginTop:16} }, 'Mande', e('br'), 'seu briefing'),
+          e('h2', { className:'va-sec-head', style:{marginTop:16} }, t.h1, e('br'), t.h2),
           e('p', { className:'va-body', style:{marginTop:28, maxWidth:380} },
-            'Respondemos em 24h. Se preferir ir direto ao ponto, escreva para ',
+            t.body.replace('fabricio@virtuall-vfx.com', ''),
             e('a', { href:'mailto:fabricio@virtuall-vfx.com', style:{borderBottom:'1px solid currentColor', color:'inherit'} }, 'fabricio@virtuall-vfx.com'), '.'
           ),
           e('div', { className:'va-contact-info-block' },
-            e('div', { style:{fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, 'FALE CONOSCO'),
+            e('div', { style:{fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, t.infoHeader),
             e('a', { href:'mailto:fabricio@virtuall-vfx.com', className:'va-body', style:{marginTop:8, display:'block'} }, 'fabricio@virtuall-vfx.com'),
             e('a', { href:'https://wa.me/5548991111727', target:'_blank', className:'va-body', style:{marginTop:8, display:'block'} }, 'WhatsApp (48) 9 9111-1727')
           )
         ),
         sent
           ? e('div', { className:'va-sent' },
-              e('div', { style:{fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, 'RECEBIDO · 200'),
-              e('h3', { className:'va-sent-head' }, 'Obrigado.', e('br'), 'Voltamos em 24h.'),
-              e('button', { className:'va-btn-ghost', onClick:() => { setSent(false); setForm({ name:'', email:'', company:'', brief:'' }); } }, '← Mandar outro')
+              e('div', { style:{fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, t.okEyebrow),
+              e('h3', { className:'va-sent-head' }, t.okH1, e('br'), t.okH2),
+              e('button', { className:'va-btn-ghost', onClick:() => { setSent(false); setForm({ name:'', email:'', company:'', brief:'' }); } }, t.okReset)
             )
           : e('form', { onSubmit: handleSubmit },
               e('div', { className:'va-field' },
-                e('label', null, 'NOME'),
-                e('input', { className:'va-input', value:form.name, onChange:ev => upd('name', ev.target.value), placeholder:'Carolina Moreira', required:true })
+                e('label', null, t.lName),
+                e('input', { className:'va-input', value:form.name, onChange:ev => upd('name', ev.target.value), placeholder:t.phName, required:true })
               ),
               e('div', { className:'va-field' },
-                e('label', null, 'EMAIL'),
-                e('input', { className:'va-input', type:'email', value:form.email, onChange:ev => upd('email', ev.target.value), placeholder:'carol@brand.co', required:true })
+                e('label', null, t.lEmail),
+                e('input', { className:'va-input', type:'email', value:form.email, onChange:ev => upd('email', ev.target.value), placeholder:t.phEmail, required:true })
               ),
               e('div', { className:'va-field' },
-                e('label', null, 'EMPRESA / AGÊNCIA'),
-                e('input', { className:'va-input', value:form.company, onChange:ev => upd('company', ev.target.value), placeholder:'Itaú · Africa' })
+                e('label', null, t.lCompany),
+                e('input', { className:'va-input', value:form.company, onChange:ev => upd('company', ev.target.value), placeholder:t.phCompany })
               ),
               e('div', { className:'va-field' },
-                e('label', null, 'BRIEFING'),
-                e('textarea', { className:'va-input', rows:5, value:form.brief, onChange:ev => upd('brief', ev.target.value), placeholder:'60s · TV + digital · entrega em 8 semanas.' })
+                e('label', null, t.lBrief),
+                e('textarea', { className:'va-input', rows:5, value:form.brief, onChange:ev => upd('brief', ev.target.value), placeholder:t.phBrief })
               ),
               error && e('p', { style:{fontFamily:'var(--font-mono)', fontSize:11, color:'var(--signal-rec)', marginBottom:12} }, error),
               e('button', { type:'submit', className:'va-btn-primary', disabled:loading, style:{opacity: loading ? 0.6 : 1} },
-                loading ? 'Enviando…' : 'Mandar briefing →'
+                loading ? t.btnSending : t.btnSend
               )
             )
       )
@@ -674,6 +753,12 @@ function Footer() {
 // ─── App ─────────────────────────────────────────────────────
 function App() {
   const [darkNav, setDarkNav] = useState(true);
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('va-lang');
+    if (saved) return saved;
+    return (navigator.language || '').toLowerCase().startsWith('pt') ? 'pt' : 'en';
+  });
+  const switchLang = (l) => { setLang(l); localStorage.setItem('va-lang', l); };
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -688,11 +773,11 @@ function App() {
   }, []);
 
   return e(React.Fragment, null,
-    e(Nav, { dark: darkNav }),
-    e(HeroReel),
-    e(Servicos),
-    e(Portfolio),
-    e(Contato),
+    e(Nav, { dark:darkNav, lang, switchLang }),
+    e(HeroReel, { lang }),
+    e(Servicos, { lang }),
+    e(Portfolio, { lang }),
+    e(Contato, { lang }),
     e(Footer)
   );
 }
