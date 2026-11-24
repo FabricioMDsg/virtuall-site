@@ -337,6 +337,7 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
   display:inline-flex; align-items:center; gap:8px;
   transition: background var(--dur-2), color var(--dur-2), box-shadow var(--dur-2);
 }
+.va-btn-wa { margin-top: 32px; text-decoration: none; }
 .va-btn-primary:hover { background:var(--paper); color:var(--ink); box-shadow:var(--shadow-inset-strong); opacity:1; }
 .va-btn-ghost {
   font-family:var(--font-sans); font-weight:700; font-size:14px;
@@ -451,7 +452,8 @@ const STRINGS = {
     port: { eyebrow:'PORTFÓLIO · CASES', headline:'Portfólio', lClient:'Cliente: ', lService:'Serviço: ', lSoftware:'Softwares: ' },
     contact: {
       eyebrow:'CONTATO · BRIEFING', h1:'Mande', h2:'seu briefing',
-      body:'Respondemos em 24h. Se preferir ir direto ao ponto, escreva para fabricio@virtuall-vfx.com.',
+      bodyPre:'Respondemos em 24h. Se preferir ir direto ao ponto, escreva para ',
+      waBtn:'Chamar no WhatsApp', waMsg:'Olá, Fabrício! Vim pelo site e quero falar sobre um projeto.',
       infoHeader:'FALE CONOSCO',
       okEyebrow:'RECEBIDO · 200', okH1:'Obrigado.', okH2:'Voltamos em 24h.', okReset:'← Mandar outro',
       lName:'NOME', phName:'Carolina Moreira',
@@ -500,7 +502,8 @@ const STRINGS = {
     port: { eyebrow:'PORTFOLIO · CASES', headline:'Portfolio', lClient:'Client: ', lService:'Service: ', lSoftware:'Software: ' },
     contact: {
       eyebrow:'CONTACT · BRIEF', h1:'Send', h2:'your brief',
-      body:'We reply within 24h. If you prefer to go straight to the point, write to fabricio@virtuall-vfx.com.',
+      bodyPre:'We reply within 24h. If you prefer to go straight to the point, write to ',
+      waBtn:'Message on WhatsApp', waMsg:'Hi Fabrício! I found you through the website and would like to talk about a project.',
       infoHeader:'GET IN TOUCH',
       okEyebrow:'RECEIVED · 200', okH1:'Thank you.', okH2:'Back in 24h.', okReset:'← Send another',
       lName:'NAME', phName:'Carolina Moreira',
@@ -798,13 +801,18 @@ function Contato({ lang }) {
         e('div', null,
           e('h2', { className:'va-sec-head', style:{marginTop:16} }, t.h1, e('br'), t.h2),
           e('p', { className:'va-body', style:{marginTop:28, maxWidth:380} },
-            t.body.replace('fabricio@virtuall-vfx.com', ''),
+            t.bodyPre,
             e('a', { href:'mailto:fabricio@virtuall-vfx.com', style:{borderBottom:'1px solid currentColor', color:'inherit'} }, 'fabricio@virtuall-vfx.com'), '.'
           ),
+          e('a', {
+            className:'va-btn-primary va-btn-wa',
+            href:'https://wa.me/5548991111727?text=' + encodeURIComponent(t.waMsg),
+            target:'_blank', rel:'noopener',
+          }, e(WaIcon), t.waBtn),
           e('div', { className:'va-contact-info-block' },
             e('div', { style:{fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, t.infoHeader),
             e('a', { href:'mailto:fabricio@virtuall-vfx.com', className:'va-body', style:{marginTop:8, display:'block'} }, 'fabricio@virtuall-vfx.com'),
-            e('a', { href:'https://wa.me/5548991111727', target:'_blank', className:'va-body', style:{marginTop:8, display:'block'} }, 'WhatsApp (48) 9 9111-1727')
+            e('a', { href:'https://wa.me/5548991111727', target:'_blank', rel:'noopener', className:'va-body', style:{marginTop:8, display:'block'} }, 'WhatsApp (48) 9 9111-1727')
           )
         ),
         sent
