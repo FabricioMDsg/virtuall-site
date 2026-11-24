@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VirtuAll — Filmes, 3D e VFX com direção criativa e IA</title>
-<meta name="description" content="Direção criativa e produção de filmes, 3D e VFX com IA para marcas, agências e produtoras. Fabrício Dresch, 20 anos de campanhas. Lajeado/RS." />
+<title>VirtuAll — Filmes e motion design com direção criativa e IA</title>
+<meta name="description" content="Direção criativa e produção de filmes, motion design, 3D e VFX com IA para marcas, agências e produtoras. Fabrício Dresch, 20 anos de campanhas. Lajeado/RS." />
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
@@ -319,7 +319,8 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
 
 /* ── Contato ─────────────────────────────────────────────── */
 .va-sec-contact { padding: 96px 0; }
-.va-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; margin-top: 56px; }
+.va-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; margin-top: 56px; align-items: end; }
+.va-contact-cta { display: flex; flex-direction: column; align-items: flex-start; }
 .va-contact-info-block { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--ink); }
 
 .va-field { display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
@@ -418,7 +419,7 @@ const e = React.createElement;
 const STRINGS = {
   pt: {
     nav: { servicos:'Serviços', portfolio:'Portfólio', sobre:'Sobre', contato:'Contato' },
-    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes, 3D e\u00a0VFX', t2:'com direção', t3:'criativa e IA', live:'AO VIVO' },
+    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes e motion', t2:'design com direção', t3:'criativa e IA', live:'AO VIVO' },
     svc: [
       {
         eyebrow:'01 · Direção criativa', h1:'Marcas', h2:'',
@@ -453,22 +454,13 @@ const STRINGS = {
     port: { eyebrow:'PORTFÓLIO · CASES', headline:'Portfólio', lClient:'Cliente: ', lService:'Serviço: ', lSoftware:'Softwares: ' },
     contact: {
       eyebrow:'CONTATO · BRIEFING', h1:'Mande', h2:'seu briefing',
-      bodyPre:'Respondemos em 24h. Se preferir ir direto ao ponto, escreva para ',
+      bodyPre:'Respondemos em 24h. Chame no WhatsApp ou escreva para ',
       waBtn:'Chamar no WhatsApp', waMsg:'Olá, Fabrício! Vim pelo site e quero falar sobre um projeto.',
-      infoHeader:'FALE CONOSCO',
-      okEyebrow:'RECEBIDO · 200', okH1:'Obrigado.', okH2:'Voltamos em 24h.', okReset:'← Mandar outro',
-      lName:'NOME', phName:'Carolina Moreira',
-      lEmail:'EMAIL', phEmail:'carol@brand.co',
-      lCompany:'EMPRESA / AGÊNCIA', phCompany:'Itaú · Africa',
-      lBrief:'BRIEFING', phBrief:'60s · TV + digital · entrega em 8 semanas.',
-      errGeneric:'Algo deu errado. Tente novamente ou escreva direto para fabricio.motion.designer@gmail.com.',
-      errNetwork:'Sem conexão. Escreva direto para fabricio.motion.designer@gmail.com.',
-      btnSending:'Enviando…', btnSend:'Mandar briefing →',
     },
   },
   en: {
     nav: { servicos:'Services', portfolio:'Portfolio', sobre:'About', contato:'Contact' },
-    hero: { eyebrow:'Creative direction · AI', t1:'Films, 3D &\u00a0VFX', t2:'with creative', t3:'direction and AI', live:'LIVE' },
+    hero: { eyebrow:'Creative direction · AI', t1:'Films and motion', t2:'design with creative', t3:'direction and AI', live:'LIVE' },
     svc: [
       {
         eyebrow:'01 · Creative direction', h1:'Brands', h2:'',
@@ -503,17 +495,8 @@ const STRINGS = {
     port: { eyebrow:'PORTFOLIO · CASES', headline:'Portfolio', lClient:'Client: ', lService:'Service: ', lSoftware:'Software: ' },
     contact: {
       eyebrow:'CONTACT · BRIEF', h1:'Send', h2:'your brief',
-      bodyPre:'We reply within 24h. If you prefer to go straight to the point, write to ',
+      bodyPre:'We reply within 24h. Message us on WhatsApp or write to ',
       waBtn:'Message on WhatsApp', waMsg:'Hi Fabrício! I found you through the website and would like to talk about a project.',
-      infoHeader:'GET IN TOUCH',
-      okEyebrow:'RECEIVED · 200', okH1:'Thank you.', okH2:'Back in 24h.', okReset:'← Send another',
-      lName:'NAME', phName:'Carolina Moreira',
-      lEmail:'EMAIL', phEmail:'carol@brand.co',
-      lCompany:'COMPANY / AGENCY', phCompany:'Brand Inc.',
-      lBrief:'BRIEF', phBrief:'60s · TV + digital · delivery in 8 weeks.',
-      errGeneric:'Something went wrong. Try again or write directly to fabricio.motion.designer@gmail.com.',
-      errNetwork:'No connection. Write directly to fabricio.motion.designer@gmail.com.',
-      btnSending:'Sending…', btnSend:'Send brief →',
     },
   },
 };
@@ -771,79 +754,23 @@ function Sobre({ lang }) {
 // ─── Contato ─────────────────────────────────────────────────
 function Contato({ lang }) {
   const t = STRINGS[lang].contact;
-  const [form, setForm] = useState({ name:'', email:'', company:'', brief:'' });
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const upd = (k, v) => setForm(f => ({ ...f, [k]:v }));
-
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-    setLoading(true);
-    setError('');
-    fetch('https://formspree.io/f/xvzlwaaj', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ name: form.name, email: form.email, empresa: form.company, briefing: form.brief }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.ok) { setSent(true); }
-        else { setError(t.errGeneric); }
-      })
-      .catch(() => setError(t.errNetwork))
-      .finally(() => setLoading(false));
-  };
-
+  const EMAIL = 'fabricio.motion.designer@gmail.com';
   return e('section', { id:'contato', className:'va-sec-contact' },
     e('div', { className:'content' },
       e('div', { className:'va-sec-eyebrow' }, t.eyebrow),
       e('div', { className:'va-contact-grid' },
-        e('div', null,
-          e('h2', { className:'va-sec-head', style:{marginTop:16} }, t.h1, e('br'), t.h2),
-          e('p', { className:'va-body', style:{marginTop:28, maxWidth:380} },
+        e('h2', { className:'va-sec-head', style:{marginTop:16} }, t.h1, e('br'), t.h2),
+        e('div', { className:'va-contact-cta' },
+          e('p', { className:'va-body', style:{margin:0, maxWidth:420} },
             t.bodyPre,
-            e('a', { href:'mailto:fabricio.motion.designer@gmail.com', style:{borderBottom:'1px solid currentColor', color:'inherit'} }, 'fabricio.motion.designer@gmail.com'), '.'
+            e('a', { href:'mailto:' + EMAIL, style:{borderBottom:'1px solid currentColor', color:'inherit'} }, EMAIL), '.'
           ),
           e('a', {
             className:'va-btn-primary va-btn-wa',
             href:'https://wa.me/5548991111727?text=' + encodeURIComponent(t.waMsg),
             target:'_blank', rel:'noopener',
-          }, e(WaIcon), t.waBtn),
-          e('div', { className:'va-contact-info-block' },
-            e('div', { style:{fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, t.infoHeader),
-            e('a', { href:'mailto:fabricio.motion.designer@gmail.com', className:'va-body', style:{marginTop:8, display:'block'} }, 'fabricio.motion.designer@gmail.com'),
-            e('a', { href:'https://wa.me/5548991111727', target:'_blank', rel:'noopener', className:'va-body', style:{marginTop:8, display:'block'} }, 'WhatsApp (48) 9 9111-1727')
-          )
-        ),
-        sent
-          ? e('div', { className:'va-sent' },
-              e('div', { style:{fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.18em', textTransform:'uppercase', color:'var(--fg-3)'} }, t.okEyebrow),
-              e('h3', { className:'va-sent-head' }, t.okH1, e('br'), t.okH2),
-              e('button', { className:'va-btn-ghost', onClick:() => { setSent(false); setForm({ name:'', email:'', company:'', brief:'' }); } }, t.okReset)
-            )
-          : e('form', { onSubmit: handleSubmit },
-              e('div', { className:'va-field' },
-                e('label', null, t.lName),
-                e('input', { className:'va-input', value:form.name, onChange:ev => upd('name', ev.target.value), placeholder:t.phName, required:true })
-              ),
-              e('div', { className:'va-field' },
-                e('label', null, t.lEmail),
-                e('input', { className:'va-input', type:'email', value:form.email, onChange:ev => upd('email', ev.target.value), placeholder:t.phEmail, required:true })
-              ),
-              e('div', { className:'va-field' },
-                e('label', null, t.lCompany),
-                e('input', { className:'va-input', value:form.company, onChange:ev => upd('company', ev.target.value), placeholder:t.phCompany })
-              ),
-              e('div', { className:'va-field' },
-                e('label', null, t.lBrief),
-                e('textarea', { className:'va-input', rows:5, value:form.brief, onChange:ev => upd('brief', ev.target.value), placeholder:t.phBrief })
-              ),
-              error && e('p', { style:{fontFamily:'var(--font-mono)', fontSize:11, color:'var(--signal-rec)', marginBottom:12} }, error),
-              e('button', { type:'submit', className:'va-btn-primary', disabled:loading, style:{opacity: loading ? 0.6 : 1} },
-                loading ? t.btnSending : t.btnSend
-              )
-            )
+          }, e(WaIcon), t.waBtn)
+        )
       )
     )
   );
