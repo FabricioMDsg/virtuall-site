@@ -151,7 +151,7 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
 .va-hr-title {
   position: relative; z-index: 2;
   font-family: var(--font-sans); font-weight: 900;
-  font-size: clamp(3.5rem, 11vw, 11rem);
+  font-size: clamp(2.25rem, 8.5vw, 9.5rem);
   line-height: .9; letter-spacing: -.03em; color: var(--paper); margin: 0;
 }
 .va-scroll-cta { flex-shrink: 0; }
@@ -385,7 +385,8 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
   .va-nav-links { display: none; }
   .va-hero-bar { padding: 0 20px; }
   .va-hero-bar .va-hero-tc { display: none; }
-  .va-hr-content { padding: 0 20px 28px; }
+  .va-hr-content { padding: 0 16px 28px; }
+  .va-hr-title { font-size: 10vw; }
   .va-scroll-cta { display: none; }
   .va-svc-blk-inner { grid-template-columns: 1fr; gap: 40px; }
   .va-svc-blk.inv .va-svc-blk-inner { direction: ltr; }
@@ -420,7 +421,7 @@ const e = React.createElement;
 const STRINGS = {
   pt: {
     nav: { servicos:'Serviços', portfolio:'Portfólio', sobre:'Sobre', contato:'Contato' },
-    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes com\u00a0IA', t2:'e direção', t3:'criativa', live:'AO VIVO' },
+    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes com\u00a0IA', t2:'e direção criativa', live:'AO VIVO' },
     svc: [
       {
         eyebrow:'01 · Direção criativa', h1:'Marcas', h2:'',
@@ -461,7 +462,7 @@ const STRINGS = {
   },
   en: {
     nav: { servicos:'Services', portfolio:'Portfolio', sobre:'About', contato:'Contact' },
-    hero: { eyebrow:'Creative direction · AI', t1:'Films with\u00a0AI', t2:'and creative', t3:'direction', live:'LIVE' },
+    hero: { eyebrow:'Creative direction · AI', t1:'AI films with', t2:'creative direction', live:'LIVE' },
     svc: [
       {
         eyebrow:'01 · Creative direction', h1:'Brands', h2:'',
@@ -638,7 +639,7 @@ function HeroReel({ lang }) {
     e('div', { className:'va-hr-content' },
       e('div', { className:'va-hr-left' },
         e('h1', { className:'va-hr-title' },
-          t.t1, e('br'), t.t2, e('br'), t.t3)
+          t.t1, e('br'), t.t2)
       ),
       e('div', { className:'va-scroll-cta' },
         e('a', { href:'#servicos', 'aria-label': lang==='en' ? 'Scroll down' : 'Rolar para baixo' },
