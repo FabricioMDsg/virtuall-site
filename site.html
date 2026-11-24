@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VirtuAll — Films for brands that matter.</title>
+<title>VirtuAll — Filmes, 3D e VFX com direção criativa e IA</title>
+<meta name="description" content="Direção criativa e produção de filmes, 3D e VFX com IA para marcas, agências e produtoras. Fabrício Dresch, 20 anos de campanhas. Lajeado/RS." />
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
@@ -58,7 +59,7 @@ a:hover { opacity: 0.6; }
 p { margin: 0; }
 
 /* scroll-margin so sticky nav doesn't cover section titles */
-section[id] { scroll-margin-top: var(--nav-h); }
+section[id], #servicos { scroll-margin-top: var(--nav-h); }
 
 /* layout helpers */
 .bleed   { max-width: var(--maxw-bleed);    margin: 0 auto; padding: 0 32px; }
@@ -202,7 +203,8 @@ section[id] { scroll-margin-top: var(--nav-h); }
 }
 .va-svc-blk.inv .va-svc-blk-inner { direction: rtl; }
 .va-svc-blk.inv .va-svc-blk-text,
-.va-svc-blk.inv .va-svc-blk-img { direction: ltr; }
+.va-svc-blk.inv .va-svc-blk-img,
+.va-svc-blk.inv .va-svc-list { direction: ltr; }
 .va-svc-blk-eyebrow {
   font-family: var(--font-mono); font-size: 11px;
   letter-spacing: 0.18em; text-transform: uppercase;
@@ -255,6 +257,11 @@ section[id] { scroll-margin-top: var(--nav-h); }
   letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3);
 }
 
+.va-svc-blk.inv .va-svc-list,
+.va-svc-blk.inv .va-svc-list-item { border-color: var(--line-inverse-1); }
+.va-svc-blk.inv .va-svc-list-name { color: var(--paper); }
+.va-svc-blk.inv .va-svc-list-apps { color: var(--neutral-500); }
+
 /* ── Vetezando ───────────────────────────────────────────── */
 .va-sec-vetezando {
   padding: 96px 0;
@@ -297,6 +304,17 @@ section[id] { scroll-margin-top: var(--nav-h); }
   font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--fg-3);
 }
+
+/* ── Sobre ───────────────────────────────────────────────── */
+.va-sec-about { padding: 96px 0; border-bottom: 1px solid var(--line-1); }
+.va-about-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 80px; margin-top: 56px; align-items: end; }
+.va-about-photo {
+  aspect-ratio: 4/5; background: var(--neutral-100); border: 1px solid var(--line-1);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.va-about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.va-about-lines { margin-top: 32px; max-width: 520px; }
+.va-about-lines .va-body { font-size: 19px; margin: 0 0 14px; color: var(--fg-1); }
 
 /* ── Contato ─────────────────────────────────────────────── */
 .va-sec-contact { padding: 96px 0; }
@@ -369,7 +387,11 @@ section[id] { scroll-margin-top: var(--nav-h); }
   .va-svc-blk.inv .va-svc-blk-inner { direction: ltr; }
   .va-svc-blk-text { order: 1; }
   .va-svc-blk-img  { order: 2; }
+  .va-svc-list { order: 2; }
+  .va-svc-list-item { padding: 14px 0 14px 4px; }
+  .va-about-photo { max-width: 280px; }
   .va-vetezando-grid,
+  .va-about-grid,
   .va-contact-grid { grid-template-columns: 1fr; gap: 48px; }
   .va-port-grid { grid-template-columns: 1fr; }
   .bleed, .content { padding: 0 20px; }
@@ -393,17 +415,38 @@ const e = React.createElement;
 // ─── i18n strings ─────────────────────────────────────────────
 const STRINGS = {
   pt: {
-    nav: { servicos:'Serviços', portfolio:'Portfólio', contato:'Contato' },
-    hero: { eyebrow:'O que fazemos', t1:'Produção', t2:'audiovisual', t3:'para criativos', live:'AO VIVO' },
-    svc: {
-      eyebrow:'01 · Produção audiovisual', h1:'Produtoras', h2:'e agências',
-      desc:'Seu braço de pós e motion, sem o custo de um time fixo. Motion design, VFX, tracking, roto e color — do conceito à entrega, em qualquer formato.',
-      list:[
-        { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
-        { name:'VFX & Compositing', apps:'After Effects' },
-        { name:'Color Grading',     apps:'DaVinci Resolve' },
-        { name:'Real-time 3D',      apps:'Unreal Engine' },
+    nav: { servicos:'Serviços', portfolio:'Portfólio', sobre:'Sobre', contato:'Contato' },
+    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes, 3D e\u00a0VFX', t2:'com direção', t3:'criativa e IA', live:'AO VIVO' },
+    svc: [
+      {
+        eyebrow:'01 · Direção criativa', h1:'Marcas', h2:'',
+        desc:'Campanha, institucional e conteúdo com IA, da ideia ao filme pronto. Direção criativa de ponta a ponta, com a agilidade de um time enxuto.',
+        list:[
+          { name:'Campanha & filmes',  apps:'Conceito · Roteiro · Direção' },
+          { name:'Institucional',      apps:'Filme de marca · Produto' },
+          { name:'Conteúdo com IA',    apps:'Imagem · Vídeo · Escala' },
+          { name:'3D & VFX',           apps:'Cinema 4D · Unreal Engine' },
+        ],
+      },
+      {
+        eyebrow:'02 · Pós e motion', h1:'Agências', h2:'e produtoras',
+        desc:'Seu braço de pós e motion, sem o custo de um time fixo. Motion design, VFX, tracking, roto e color — do conceito à entrega, em qualquer formato.',
+        list:[
+          { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
+          { name:'VFX & Compositing', apps:'After Effects' },
+          { name:'Color Grading',     apps:'DaVinci Resolve' },
+          { name:'Real-time 3D',      apps:'Unreal Engine' },
+        ],
+      },
+    ],
+    about: {
+      eyebrow:'SOBRE', headline:'Fabrício Dresch',
+      lines:[
+        'Há 20 anos faço campanhas, filmes, 3D e VFX para marcas e agências.',
+        'Hoje dirijo projetos do conceito à entrega, usando IA para produzir mais rápido sem perder o acabamento.',
+        'Base em Lajeado/RS, atendendo o Brasil inteiro.',
       ],
+      photoAlt:'Foto de Fabrício Dresch',
     },
     port: { eyebrow:'PORTFÓLIO · PRODUTORAS', headline:'Portfólio', lClient:'Cliente: ', lService:'Serviço: ', lSoftware:'Softwares: ' },
     contact: {
@@ -421,17 +464,38 @@ const STRINGS = {
     },
   },
   en: {
-    nav: { servicos:'Services', portfolio:'Portfolio', contato:'Contact' },
-    hero: { eyebrow:'What we do', t1:'High-end', t2:'audiovisual', t3:'for creative teams', live:'LIVE' },
-    svc: {
-      eyebrow:'01 · Post-production', h1:'Studios', h2:'& agencies',
-      desc:'Your post and motion arm, without the cost of a full-time team. Motion design, VFX, tracking, roto and color — from concept to delivery, in any format.',
-      list:[
-        { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
-        { name:'VFX & Compositing', apps:'After Effects' },
-        { name:'Color Grading',     apps:'DaVinci Resolve' },
-        { name:'Real-time 3D',      apps:'Unreal Engine' },
+    nav: { servicos:'Services', portfolio:'Portfolio', sobre:'About', contato:'Contact' },
+    hero: { eyebrow:'Creative direction · AI', t1:'Films, 3D &\u00a0VFX', t2:'with creative', t3:'direction and AI', live:'LIVE' },
+    svc: [
+      {
+        eyebrow:'01 · Creative direction', h1:'Brands', h2:'',
+        desc:'Campaigns, brand films and AI-powered content, from idea to finished film. End-to-end creative direction with the speed of a lean team.',
+        list:[
+          { name:'Campaigns & films',  apps:'Concept · Script · Direction' },
+          { name:'Brand films',        apps:'Corporate · Product' },
+          { name:'AI content',         apps:'Image · Video · Scale' },
+          { name:'3D & VFX',           apps:'Cinema 4D · Unreal Engine' },
+        ],
+      },
+      {
+        eyebrow:'02 · Post & motion', h1:'Agencies', h2:'& studios',
+        desc:'Your post and motion arm, without the cost of a full-time team. Motion design, VFX, tracking, roto and color — from concept to delivery, in any format.',
+        list:[
+          { name:'Motion Design',     apps:'After Effects · Cinema 4D' },
+          { name:'VFX & Compositing', apps:'After Effects' },
+          { name:'Color Grading',     apps:'DaVinci Resolve' },
+          { name:'Real-time 3D',      apps:'Unreal Engine' },
+        ],
+      },
+    ],
+    about: {
+      eyebrow:'ABOUT', headline:'Fabrício Dresch',
+      lines:[
+        '20 years making campaigns, films, 3D and VFX for brands and agencies.',
+        'Today I direct projects from concept to delivery, using AI to produce faster without losing the finish.',
+        'Based in Lajeado, Brazil, working worldwide.',
       ],
+      photoAlt:'Photo of Fabrício Dresch',
     },
     port: { eyebrow:'PORTFOLIO · STUDIOS', headline:'Portfolio', lClient:'Client: ', lService:'Service: ', lSoftware:'Software: ' },
     contact: {
@@ -500,6 +564,7 @@ function Nav({ dark, lang, switchLang }) {
   const links = [
     { href:'#servicos',  label:t.servicos },
     { href:'#portfolio', label:t.portfolio },
+    { href:'#sobre',     label:t.sobre },
     { href:'#contato',   label:t.contato },
   ];
   return e('nav', { className:'va-nav' + (dark ? ' dark' : '') },
@@ -587,19 +652,23 @@ function HeroReel({ lang }) {
 
 // ─── Serviços ─────────────────────────────────────────────
 function Servicos({ lang }) {
-  const t = STRINGS[lang].svc;
-  return e('section', { id:'servicos', className:'va-svc-blk' },
-    e('div', { className:'va-svc-blk-inner', style:{alignItems:'stretch'} },
-      e('div', { className:'va-svc-blk-text' },
-        e('div', { className:'va-svc-blk-eyebrow' }, t.eyebrow),
-        e('h2', { className:'va-svc-blk-headline' }, t.h1, e('br'), t.h2),
-        e('p', { className:'va-svc-blk-desc' }, t.desc)
-      ),
-      e('div', { className:'va-svc-list' },
-        t.list.map((s, i) =>
-          e('div', { key:i, className:'va-svc-list-item' },
-            e('span', { className:'va-svc-list-name' }, s.name),
-            e('span', { className:'va-svc-list-apps' }, s.apps)
+  const blocks = STRINGS[lang].svc;
+  return e('div', { id:'servicos' },
+    blocks.map((t, i) =>
+      e('section', { key:i, className:'va-svc-blk' + (i % 2 ? ' inv' : '') },
+        e('div', { className:'va-svc-blk-inner', style:{alignItems:'stretch'} },
+          e('div', { className:'va-svc-blk-text' },
+            e('div', { className:'va-svc-blk-eyebrow' }, t.eyebrow),
+            e('h2', { className:'va-svc-blk-headline' }, t.h1, t.h2 && e('br'), t.h2),
+            e('p', { className:'va-svc-blk-desc' }, t.desc)
+          ),
+          e('div', { className:'va-svc-list' },
+            t.list.map((s, j) =>
+              e('div', { key:j, className:'va-svc-list-item' },
+                e('span', { className:'va-svc-list-name' }, s.name),
+                e('span', { className:'va-svc-list-apps' }, s.apps)
+              )
+            )
           )
         )
       )
@@ -641,6 +710,32 @@ function Portfolio({ lang }) {
                 e('span', { style:{fontWeight:600} }, t.lSoftware), w.software
               )
             )
+          )
+        )
+      )
+    )
+  );
+}
+
+// ─── Sobre ───────────────────────────────────────────────────
+// Foto: salvar em assets/about/fabricio.jpg (retrato 4:5) e trocar ABOUT_PHOTO.
+const ABOUT_PHOTO = ''; // ex.: 'assets/about/fabricio.jpg'
+
+function Sobre({ lang }) {
+  const t = STRINGS[lang].about;
+  return e('section', { id:'sobre', className:'va-sec-about' },
+    e('div', { className:'content' },
+      e('div', { className:'va-sec-eyebrow' }, t.eyebrow),
+      e('div', { className:'va-about-grid' },
+        e('div', { className:'va-about-photo' },
+          ABOUT_PHOTO
+            ? e('img', { src:ABOUT_PHOTO, alt:t.photoAlt, loading:'lazy' })
+            : e('span', { className:'va-svc-blk-img-label' }, 'FOTO · 4:5')
+        ),
+        e('div', null,
+          e('h2', { className:'va-sec-head' }, t.headline),
+          e('div', { className:'va-about-lines' },
+            t.lines.map((l, i) => e('p', { key:i, className:'va-body' }, l))
           )
         )
       )
@@ -771,6 +866,7 @@ function App() {
     e(HeroReel, { lang }),
     e(Servicos, { lang }),
     e(Portfolio, { lang }),
+    e(Sobre, { lang }),
     e(Contato, { lang }),
     e(Footer)
   );
