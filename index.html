@@ -448,7 +448,7 @@ const STRINGS = {
       ],
       photoAlt:'Foto de Fabrício Dresch',
     },
-    port: { eyebrow:'PORTFÓLIO · PRODUTORAS', headline:'Portfólio', lClient:'Cliente: ', lService:'Serviço: ', lSoftware:'Softwares: ' },
+    port: { eyebrow:'PORTFÓLIO · CASES', headline:'Portfólio', lClient:'Cliente: ', lService:'Serviço: ', lSoftware:'Softwares: ' },
     contact: {
       eyebrow:'CONTATO · BRIEFING', h1:'Mande', h2:'seu briefing',
       body:'Respondemos em 24h. Se preferir ir direto ao ponto, escreva para fabricio@virtuall-vfx.com.',
@@ -497,7 +497,7 @@ const STRINGS = {
       ],
       photoAlt:'Photo of Fabrício Dresch',
     },
-    port: { eyebrow:'PORTFOLIO · STUDIOS', headline:'Portfolio', lClient:'Client: ', lService:'Service: ', lSoftware:'Software: ' },
+    port: { eyebrow:'PORTFOLIO · CASES', headline:'Portfolio', lClient:'Client: ', lService:'Service: ', lSoftware:'Software: ' },
     contact: {
       eyebrow:'CONTACT · BRIEF', h1:'Send', h2:'your brief',
       body:'We reply within 24h. If you prefer to go straight to the point, write to fabricio@virtuall-vfx.com.',
@@ -515,6 +515,8 @@ const STRINGS = {
 };
 
 // ─── Portfolio data ──────────────────────────────────────────
+// active:false  → fica no código mas não aparece no site.
+// credit/creditEn → substitui a linha "Cliente:" (ex.: cases feitos via produtora).
 const PORTFOLIO = [
   { id:1, code:'VA—24—042', client:'Darde Propaganda', year:2026, vimeoId:'1190567738',
     service:'Motion design e direção de arte.',
@@ -524,7 +526,7 @@ const PORTFOLIO = [
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
     serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration on real footage.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
-  { id:3, code:'VA—24—031', client:'Feedback Studios', year:2025, vimeoId:'1190567625',
+  { id:3, code:'VA—24—031', client:'Feedback Studios', year:2025, vimeoId:'1190567625', active:false,
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real.',
     serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration on real footage.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
@@ -540,11 +542,11 @@ const PORTFOLIO = [
     service:'Criação, Direção de cena, Edição e direção de arte.',
     serviceEn:'Concept, Direction, Editing and art direction.',
     software:'DaVinci Resolve.' },
-  { id:5, code:'VA—24—043', client:'Feedback Studios', year:2024, vimeoId:'1199549485',
+  { id:5, code:'VA—24—043', client:'Feedback Studios', year:2024, vimeoId:'1199549485', active:false,
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration, chroma key actor compositing and lettering motion design.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
-  { id:6, code:'VA—24—044', client:'Feedback Studios', year:2024, vimeoId:'1199550512',
+  { id:6, code:'VA—24—044', client:'Feedback Studios', year:2024, vimeoId:'1199550512', active:false,
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real, composições dos atores com chroma key e motion design dos letterings.',
     serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration, chroma key actor compositing and lettering motion design.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
@@ -552,10 +554,27 @@ const PORTFOLIO = [
     service:'Archviz Cinematic VFX, tracking de câmera, integração do prédio 3D na cena real e motion design dos letterings.',
     serviceEn:'Archviz Cinematic VFX, camera tracking, 3D building integration and lettering motion design.',
     software:'After Effects, Cinema 4D, Unreal Engine e DaVinci Resolve.' },
-  { id:10, code:'VA—17—002', client:'Mepasa', year:2017, vimeoId:'1199592543',
+  { id:10, code:'VA—17—002', client:'Mepase', year:2017, vimeoId:'1199592543',
     service:'Criação, Direção de cena, Edição, Motion design e direção de arte.',
     serviceEn:'Concept, Direction, Editing, Motion design and art direction.',
     software:'After Effects.' },
+
+  // ── Novos cases: estrutura pronta, conteúdo pendente ──────────
+  // TODO: preencher vimeoId, serviço e softwares e trocar para active:true.
+  { id:11, code:'VA—26—LED', client:'LED', year:2026, vimeoId:'', active:false,
+    service:'', serviceEn:'', software:'' },
+  // NÃO ATIVAR antes da liberação do Felipe (Foco e Luz).
+  { id:12, code:'VA—26—BRA', client:'Bradesco', year:2026, vimeoId:'', active:false,
+    credit:'Cliente: Bradesco · Produção: Foco e Luz',
+    creditEn:'Client: Bradesco · Production: Foco e Luz',
+    service:'', serviceEn:'', software:'' },
+  // NÃO ATIVAR antes da liberação do Felipe (Foco e Luz).
+  { id:13, code:'VA—26—TUP', client:'Tupperware', year:2026, vimeoId:'', active:false,
+    credit:'Cliente: Tupperware · Produção: Foco e Luz',
+    creditEn:'Client: Tupperware · Production: Foco e Luz',
+    service:'', serviceEn:'', software:'' },
+  { id:14, code:'VA—26—IA', client:'Case IA', year:2026, vimeoId:'', active:false,
+    service:'', serviceEn:'', software:'' },
 ];
 
 // ─── Nav ─────────────────────────────────────────────────────
@@ -684,7 +703,7 @@ function Portfolio({ lang }) {
       e('div', { className:'va-sec-eyebrow' }, t.eyebrow),
       e('h2', { className:'va-sec-head', style:{marginTop:16} }, t.headline),
       e('div', { className:'va-port-grid' },
-        PORTFOLIO.map(w =>
+        PORTFOLIO.filter(w => w.active !== false).map(w =>
           e('div', { key:w.id, className:'va-port-card' },
             e('div', { className:'va-port-still' },
               e('iframe', {
@@ -700,7 +719,9 @@ function Portfolio({ lang }) {
               )
             ),
             e('div', { className:'va-port-meta' },
-              e('span', { className:'va-port-client' }, e('span', { style:{fontWeight:400, fontSize:14, letterSpacing:0} }, t.lClient), w.client)
+              w.credit
+                ? e('span', { className:'va-port-client', style:{fontSize:18} }, lang==='en' ? (w.creditEn || w.credit) : w.credit)
+                : e('span', { className:'va-port-client' }, e('span', { style:{fontWeight:400, fontSize:14, letterSpacing:0} }, t.lClient), w.client)
             ),
             e('div', { style:{padding:'10px 0', display:'flex', flexDirection:'column', gap:4} },
               e('span', { style:{fontFamily:'var(--font-sans)', fontSize:13, color:'var(--fg-2)', lineHeight:1.5} },
