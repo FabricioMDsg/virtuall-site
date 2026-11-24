@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VirtuAll — Filmes e motion design com direção criativa e IA</title>
+<title>VirtuAll — Filmes e motion com direção criativa e IA</title>
 <meta name="description" content="Direção criativa e produção de filmes, motion design, 3D e VFX com IA para marcas, agências e produtoras. Fabrício Dresch, 20 anos de campanhas. Lajeado/RS." />
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
@@ -139,8 +139,9 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
 
 .va-hr-content {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  padding: 0 48px 48px;
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
+  padding: 0 48px 40px;
+  display: flex; flex-direction: column; align-items: center; gap: 32px;
+  text-align: center;
 }
 .va-hr-eyebrow {
   font-family: var(--font-mono); font-size: 11px;
@@ -419,7 +420,7 @@ const e = React.createElement;
 const STRINGS = {
   pt: {
     nav: { servicos:'Serviços', portfolio:'Portfólio', sobre:'Sobre', contato:'Contato' },
-    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes e motion', t2:'design com direção', t3:'criativa e IA', live:'AO VIVO' },
+    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes e motion', t2:'com direção', t3:'criativa e IA', live:'AO VIVO' },
     svc: [
       {
         eyebrow:'01 · Direção criativa', h1:'Marcas', h2:'',
@@ -454,13 +455,13 @@ const STRINGS = {
     port: { eyebrow:'PORTFÓLIO · CASES', headline:'Portfólio', lClient:'Cliente: ', lService:'Serviço: ', lSoftware:'Softwares: ' },
     contact: {
       eyebrow:'CONTATO · BRIEFING', h1:'Mande', h2:'seu briefing',
-      bodyPre:'Respondemos em 24h. Chame no WhatsApp ou escreva para ',
+      bodyPre:'Chame no WhatsApp ou escreva para ',
       waBtn:'Chamar no WhatsApp', waMsg:'Olá, Fabrício! Vim pelo site e quero falar sobre um projeto.',
     },
   },
   en: {
     nav: { servicos:'Services', portfolio:'Portfolio', sobre:'About', contato:'Contact' },
-    hero: { eyebrow:'Creative direction · AI', t1:'Films and motion', t2:'design with creative', t3:'direction and AI', live:'LIVE' },
+    hero: { eyebrow:'Creative direction · AI', t1:'Films and motion', t2:'with creative', t3:'direction and AI', live:'LIVE' },
     svc: [
       {
         eyebrow:'01 · Creative direction', h1:'Brands', h2:'',
@@ -495,7 +496,7 @@ const STRINGS = {
     port: { eyebrow:'PORTFOLIO · CASES', headline:'Portfolio', lClient:'Client: ', lService:'Service: ', lSoftware:'Software: ' },
     contact: {
       eyebrow:'CONTACT · BRIEF', h1:'Send', h2:'your brief',
-      bodyPre:'We reply within 24h. Message us on WhatsApp or write to ',
+      bodyPre:'Message us on WhatsApp or write to ',
       waBtn:'Message on WhatsApp', waMsg:'Hi Fabrício! I found you through the website and would like to talk about a project.',
     },
   },
