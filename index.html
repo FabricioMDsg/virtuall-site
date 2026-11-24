@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VirtuAll — Filmes e motion com direção criativa e IA</title>
+<title>VirtuAll — Filmes com direção criativa e IA</title>
 <meta name="description" content="Direção criativa e produção de filmes, motion design, 3D e VFX com IA para marcas, agências e produtoras. Fabrício Dresch, 20 anos de campanhas. Lajeado/RS." />
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
@@ -122,7 +122,7 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
 }
 .va-hero::after {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background-image: radial-gradient(rgba(0,0,0,.9) 1px, transparent 1.6px);
+  background-image: radial-gradient(rgba(0,0,0,.9) 1.6px, transparent 2.3px);
   background-size: 6px 6px;
 }
 .va-hero-bar {
@@ -158,7 +158,7 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
 .va-scroll-cta a {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   width: 56px; height: 56px; border-radius: 50%;
-  border: 1.5px solid rgba(246,245,241,0.3);
+  border: 2.5px solid rgba(246,245,241,0.55);
   color: var(--neutral-200); text-decoration: none;
   transition: border-color 0.25s, color 0.25s, background 0.25s;
 }
@@ -420,7 +420,7 @@ const e = React.createElement;
 const STRINGS = {
   pt: {
     nav: { servicos:'Serviços', portfolio:'Portfólio', sobre:'Sobre', contato:'Contato' },
-    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes e motion', t2:'com direção', t3:'criativa e IA', live:'AO VIVO' },
+    hero: { eyebrow:'Direção criativa · IA', t1:'Filmes com', t2:'direção criativa', t3:'e IA', live:'AO VIVO' },
     svc: [
       {
         eyebrow:'01 · Direção criativa', h1:'Marcas', h2:'',
@@ -461,7 +461,7 @@ const STRINGS = {
   },
   en: {
     nav: { servicos:'Services', portfolio:'Portfolio', sobre:'About', contato:'Contact' },
-    hero: { eyebrow:'Creative direction · AI', t1:'Films and motion', t2:'with creative', t3:'direction and AI', live:'LIVE' },
+    hero: { eyebrow:'Creative direction · AI', t1:'Films with', t2:'creative direction', t3:'and AI', live:'LIVE' },
     svc: [
       {
         eyebrow:'01 · Creative direction', h1:'Brands', h2:'',
@@ -637,17 +637,16 @@ function HeroReel({ lang }) {
     ),
     e('div', { className:'va-hr-content' },
       e('div', { className:'va-hr-left' },
-        e('div', { className:'va-hr-eyebrow' }, t.eyebrow),
         e('h1', { className:'va-hr-title' },
           t.t1, e('br'), t.t2, e('br'), t.t3)
       ),
       e('div', { className:'va-scroll-cta' },
         e('a', { href:'#servicos', 'aria-label': lang==='en' ? 'Scroll down' : 'Rolar para baixo' },
           e('div', { className:'va-scroll-arrows' },
-            e('svg', { width:24, height:14, viewBox:'0 0 24 14', fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round' },
+            e('svg', { width:24, height:14, viewBox:'0 0 24 14', fill:'none', stroke:'currentColor', strokeWidth:3.2, strokeLinecap:'round', strokeLinejoin:'round' },
               e('polyline', { points:'2 2 12 12 22 2' })
             ),
-            e('svg', { width:24, height:14, viewBox:'0 0 24 14', fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round', style:{opacity:0.35} },
+            e('svg', { width:24, height:14, viewBox:'0 0 24 14', fill:'none', stroke:'currentColor', strokeWidth:3.2, strokeLinecap:'round', strokeLinejoin:'round', style:{opacity:0.35} },
               e('polyline', { points:'2 2 12 12 22 2' })
             )
           )
