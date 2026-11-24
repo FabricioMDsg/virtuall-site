@@ -309,10 +309,11 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
 .va-sec-about { padding: 96px 0; border-bottom: 1px solid var(--line-1); }
 .va-about-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 80px; margin-top: 56px; align-items: end; }
 .va-about-photo {
-  aspect-ratio: 4/5; background: var(--neutral-100); border: 1px solid var(--line-1);
+  aspect-ratio: 9/16; max-width: 380px; width: 100%;
+  background: var(--neutral-900); border: 1px solid var(--line-1);
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
-.va-about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.va-about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
 .va-about-lines { margin-top: 32px; max-width: 520px; }
 .va-about-lines .va-body { font-size: 19px; margin: 0 0 14px; color: var(--fg-1); }
 
@@ -390,7 +391,7 @@ section[id], #servicos { scroll-margin-top: var(--nav-h); }
   .va-svc-blk-img  { order: 2; }
   .va-svc-list { order: 2; }
   .va-svc-list-item { padding: 14px 0 14px 4px; }
-  .va-about-photo { max-width: 280px; }
+  .va-about-photo { max-width: 260px; }
   .va-vetezando-grid,
   .va-about-grid,
   .va-contact-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -742,8 +743,8 @@ function Portfolio({ lang }) {
 }
 
 // ─── Sobre ───────────────────────────────────────────────────
-// Foto: salvar em assets/about/fabricio.jpg (retrato 4:5) e trocar ABOUT_PHOTO.
-const ABOUT_PHOTO = ''; // ex.: 'assets/about/fabricio.jpg'
+// Foto: assets/about/fabricio.jpg (retrato 9:16).
+const ABOUT_PHOTO = 'assets/about/fabricio.jpg';
 
 function Sobre({ lang }) {
   const t = STRINGS[lang].about;
@@ -754,7 +755,7 @@ function Sobre({ lang }) {
         e('div', { className:'va-about-photo' },
           ABOUT_PHOTO
             ? e('img', { src:ABOUT_PHOTO, alt:t.photoAlt, loading:'lazy' })
-            : e('span', { className:'va-svc-blk-img-label' }, 'FOTO · 4:5')
+            : e('span', { className:'va-svc-blk-img-label' }, 'FOTO · 9:16')
         ),
         e('div', null,
           e('h2', { className:'va-sec-head' }, t.headline),
